@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Màu chữ:"
+                    android:id="@+id/textView1"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:layout_width="@dimen/color_button_width"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_textColor_iv"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dialog_nextTextColor_btn"
+                    android:layout_toStartOf="@+id/dialog_nextTextColor_btn"
+                    android:layout_marginLeft="@dimen/color_margin_LR"
+                    android:layout_marginRight="@dimen/color_margin_LR"
+                    android:layout_marginBottom="@dimen/color_margin_B"
+                    android:background="@android:color/black"
+                    android:padding="1dp" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_nextTextColor_btn"
+                    android:padding="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/dialog_textColor_iv"
+                    android:layout_alignBottom="@+id/dialog_textColor_iv"
+                    android:background="@drawable/next_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_prevTextColor_btn"
+                    android:padding="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/dialog_textColor_iv"
+                    android:layout_toStartOf="@+id/dialog_textColor_iv"
+                    android:layout_alignTop="@+id/dialog_textColor_iv"
+                    android:layout_alignBottom="@+id/dialog_textColor_iv"
+                    android:background="@drawable/prev_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Màu nền:"
+                    android:id="@+id/textView2"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:layout_width="@dimen/color_button_width"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_backColor_iv"
+                    android:background="@android:color/black"
+                    android:padding="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dialog_nextBackColor_btn"
+                    android:layout_toStartOf="@+id/dialog_nextBackColor_btn"
+                    android:layout_marginLeft="@dimen/color_margin_LR"
+                    android:layout_marginRight="@dimen/color_margin_LR"
+                    android:layout_marginBottom="@dimen/color_margin_B" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_nextBackColor_btn"
+                    android:padding="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/dialog_backColor_iv"
+                    android:layout_alignBottom="@+id/dialog_backColor_iv"
+                    android:background="@drawable/next_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_prevBackColor_btn"
+                    android:padding="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/dialog_backColor_iv"
+                    android:layout_toStartOf="@+id/dialog_backColor_iv"
+                    android:layout_alignTop="@+id/dialog_backColor_iv"
+                    android:layout_alignBottom="@+id/dialog_backColor_iv"
+                    android:background="@drawable/prev_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Cỡ chữ:"
+                    android:id="@+id/textView7"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dialog_textSize_tv"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dialog_nextSize_btn"
+                    android:layout_toStartOf="@+id/dialog_nextSize_btn"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="@dimen/color_margin_B" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_nextSize_btn"
+                    android:padding="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/dialog_textSize_tv"
+                    android:layout_alignBottom="@+id/dialog_textSize_tv"
+                    android:background="@drawable/next_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_prevSize_btn"
+                    android:padding="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/dialog_textSize_tv"
+                    android:layout_toStartOf="@+id/dialog_textSize_tv"
+                    android:layout_alignTop="@+id/dialog_textSize_tv"
+                    android:layout_alignBottom="@+id/dialog_textSize_tv"
+                    android:background="@drawable/prev_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="K.cách dòng:"
+                    android:id="@+id/textView5"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dialog_lineSpace_tv"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dialog_nextSpace_btn"
+                    android:layout_toStartOf="@+id/dialog_nextSpace_btn"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="@dimen/color_margin_B" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_nextSpace_btn"
+                    android:padding="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/dialog_lineSpace_tv"
+                    android:layout_alignBottom="@+id/dialog_lineSpace_tv"
+                    android:background="@drawable/next_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_prevSpace_btn"
+                    android:padding="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/dialog_lineSpace_tv"
+                    android:layout_toStartOf="@+id/dialog_lineSpace_tv"
+                    android:layout_alignTop="@+id/dialog_lineSpace_tv"
+                    android:layout_alignBottom="@+id/dialog_lineSpace_tv"
+                    android:background="@drawable/prev_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Kiểu đọc:"
+                    android:id="@+id/textView3"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dialog_readMode_tv"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/dialog_nextMode_btn"
+                    android:layout_toStartOf="@+id/dialog_nextMode_btn"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="@dimen/color_margin_B" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_nextMode_btn"
+                    android:padding="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/dialog_readMode_tv"
+                    android:layout_alignBottom="@+id/dialog_readMode_tv"
+                    android:background="@drawable/next_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+                <ImageButton
+                    android:layout_width="@dimen/color_button_height"
+                    android:layout_height="@dimen/color_button_width"
+                    android:id="@+id/dialog_prevMode_btn"
+                    android:padding="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/dialog_readMode_tv"
+                    android:layout_toStartOf="@+id/dialog_readMode_tv"
+                    android:layout_alignTop="@+id/dialog_readMode_tv"
+                    android:layout_alignBottom="@+id/dialog_readMode_tv"
+                    android:background="@drawable/prev_btn"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_circle_btn" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/item_padding_LR"
+                android:paddingRight="@dimen/item_padding_LR"
+                android:paddingTop="@dimen/item_padding_T"
+                android:paddingBottom="@dimen/item_padding_B"
+                android:background="@drawable/detail_description_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Xem trước:"
+                    android:id="@+id/textView4"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dialog_preview_tv"
+                    android:text="We’ve all got both light and dark inside us. What matters is the part we choose to act on. That’s who we really are.\r\n—J. K. Rowling, Harry Potter and the Order of the Phoenix"
+                    android:layout_alignTop="@+id/textView4"
+                    android:layout_toRightOf="@+id/textView4"
+                    android:layout_toEndOf="@+id/textView4"
+                    android:layout_marginLeft="@dimen/color_margin_LR"
+                    android:layout_marginBottom="@dimen/color_margin_B" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lưu lại"
+                    android:id="@+id/dialog_save_btn"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Huỷ"
+                    android:id="@+id/dialog_cancel_btn"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

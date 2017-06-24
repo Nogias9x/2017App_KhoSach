@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorText333">#333</color>
+    <color name="list_row_title">#4db6fd</color>
+    <color name="list_row_text">#88eeeeee</color>
+    <color name="list_row_author">#eeeeee</color>
+    <color name="grid_cell_title_bg">#44000000</color>
+    <color name="grid_cell_title_text">#ffffff</color>
+    <color name="detail_btns_bar">#d7d5d5</color>
+
+    <color name="selector">#44333333</color>
+
+    <!--viewer activity-->
+    <color name="viewer_chapter_title">#4db6fd</color>
+    <color name="viewer_chapter_content">#333</color>
+    <color name="viewer_background">#44333333</color>
+</resources>

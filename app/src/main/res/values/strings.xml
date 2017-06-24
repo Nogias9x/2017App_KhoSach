@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">KhoTruyen</string>
+
+    <!-- sharing -->
+    <string name="share_content">\nMột cuốn sách hay bạn không thể bỏ qua!</string>
+    <string name="share_title">Chia sẻ đến ...</string>
+
+    <!-- BOOK -->
+    <string name="book_view">Lượt đọc: </string>
+
+    <!-- Tab -->
+    <string name="tab_1">TRUYỆN ĐANG CÓ</string>
+    <string name="tab_2">TRUYỆN CỦA TÔI</string>
+
+    <!-- Data -->
+    <string name="data_no">Không có dữ liệu.</string>
+
+    <!-- Toast -->
+    <string name="toast_execute_success">Thực hiện thành công.</string>
+    <string name="toast_execute_failure">Thực hiện thất bại.</string>
+
+    <!-- ProgressDialog -->
+    <string name="progress_msg">Đang tải dữ liệu ...</string>
+
+    <!-- message -->
+    <string name="msg_no_internet">Không có kết nối, vui lòng kiểm tra tín hiệu!</string>
+    <string name="msg_rate_success">Đánh giá của bạn đã được ghi nhận.</string>
+
+
+</resources>
