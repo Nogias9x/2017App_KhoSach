@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.Activities.DetailActivity;
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
@@ -25,7 +26,9 @@ import com.example.n50.s1212491_khosach.R;
 import java.util.List;
 
 public class AllBookFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-    private List<Book> mBooks = null;
+    private List<Book9> mBook9s = null;
+    private List<Book> mBooksNEW = null;
+
     private ListView mListView;
     private MainActivity mContext;
     private ProgressDialog Dialog;
@@ -50,19 +53,22 @@ public class AllBookFragment extends Fragment implements AdapterView.OnItemClick
 
         mListView.setOnItemClickListener(this);
         mListView.setOnItemLongClickListener(this);
-        mLongOperation.getAllBooksTask(this, mListView);
+        mLongOperation.getAllBooksListNEW(this, mListView);
 
         return view;
     }
 
-    public void setmBooks(List<Book> mBooks) {
-        this.mBooks = mBooks;
+    public void setmBook9s(List<Book9> mBook9s) {
+        this.mBook9s = mBook9s;
+    }
+    public void setmBooksNEW(List<Book> mBooksNEW) {
+        this.mBooksNEW = mBooksNEW;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent detailIntent = new Intent(mContext, DetailActivity.class);
-        detailIntent.putExtra("selectedBook", mBooks.get(position));
+        detailIntent.putExtra("selectedBook", mBooksNEW.get(position));
         mContext.startActivity(detailIntent);
     }
 
@@ -74,13 +80,13 @@ public class AllBookFragment extends Fragment implements AdapterView.OnItemClick
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         DBHelper db = ((MyApplication) mContext.getApplication()).getmLocalDatabase();
-                        if (db.checkIfExistDownloadedBook(mBooks.get(position).getId()) == true) {
-                            Toast.makeText(mContext, mBooks.get(position).getTitle().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
+                        if (db.checkIfExistDownloadedBook(mBook9s.get(position).getId()) == true) {
+                            Toast.makeText(mContext, mBook9s.get(position).getTitle().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
                         } else {
-                            db.insertDownloadedBook(mBooks.get(position).getId(), mBooks.get(position).getTitle(), mBooks.get(position).getAuthor(), mBooks.get(position).getCoverUrl());
+                            db.insertDownloadedBook(mBook9s.get(position).getId(), mBook9s.get(position).getTitle(), mBook9s.get(position).getAuthor(), mBook9s.get(position).getCoverUrl());
 
                             //tải và thêm các chapter của book xuống local database
-                            mLongOperation.getAllChaptersTask(mBooks.get(position).getId());
+                            mLongOperation.getAllChaptersTask(mBook9s.get(position).getId());
                             ((MyApplication) mContext.getApplication()).setmLocalDatabase(db);
                         }
                         break;
@@ -93,7 +99,7 @@ public class AllBookFragment extends Fragment implements AdapterView.OnItemClick
 
         //////////
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Bạn có muốn thêm truyện " + mBooks.get(position).getTitle().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
+        builder.setMessage("Bạn có muốn thêm truyện " + mBook9s.get(position).getTitle().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
                 .setPositiveButton("Có", dialogClickListener)
                 .setNegativeButton("Không", dialogClickListener).show();
         return true;

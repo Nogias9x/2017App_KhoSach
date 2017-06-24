@@ -12,10 +12,13 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.Activities.BaseActivity;
 import com.example.n50.s1212491_khosach.Activities.SearchingActivity;
 import com.example.n50.s1212491_khosach.Adapters.BookListAdapter;
+import com.example.n50.s1212491_khosach.Common.ApiUtils;
 import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
+import com.example.n50.s1212491_khosach.Common.MyWebService;
 import com.example.n50.s1212491_khosach.Fragments.AllBookFragment;
 import com.example.n50.s1212491_khosach.R;
 
@@ -30,6 +33,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LongOperation {
     private BaseActivity mContext;
@@ -151,112 +158,112 @@ public class LongOperation {
         return mChapterList;
     }
 
-    //tải tất cả các truyện từ server
-    public void getAllBooksTask(final AllBookFragment fragment, final ListView listView) {
-        new AsyncTask<Void, Void, List<Book>>() {
-            @Override
-            protected void onPreExecute() {
-                Dialog = new ProgressDialog(mContext);
-                Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
-                Dialog.show();
-            }
-
-            @Override
-            protected List<Book> doInBackground(Void... voids) {
-                return getAllBooks("http://wsthichtruyen-1212491.rhcloud.com/?function=0");
-            }
-
-            @Override
-            protected void onPostExecute(List<Book> list) {
-                if (list != null) {
-                    BookListAdapter adapter = new BookListAdapter(mContext, list);
-                    listView.setAdapter(adapter);
-                    fragment.setmBooks(list);
-                }
-                Dialog.dismiss();
-            }
-        }.execute();
-    }
-
-    private List<Book> getAllBooks(String path) {
-        Context mContext;
-        String Content = null;
-        String Error = null;
-        ProgressDialog Dialog;
-        String data = "";
-        List<Book> mBookList = null;
-
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(path);//"http://wsthichtruyen-1212491.rhcloud.com/?function=0");
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            // Read Server Response
-            while ((line = reader.readLine()) != null) {
-                // Append server response in string
-                sb.append(line + " ");
-            }
-
-            // Append Server Response To Content String
-            Content = sb.toString();
-        } catch (Exception ex) {
-            Error = ex.getMessage();
-        } finally {
-            try {
-                reader.close();
-            } catch (Exception ex) {
-                Log.i("<<NOGIAS>>", ex.toString());
-            }
-        }
-
-        if (Error != null) {
-            Log.i("<<NOGIAS>>", Error);
-        } else {
-            /****************** Start Parse Response JSON Data *************/
-            JSONArray jsonArray;
-            try {
-                /****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                Content = Html.fromHtml(Content).toString();
-                if (Content.equals("")) {
-                    Log.i("<<NOGIAS>>", "Content: NULL ");
-                    return null;
-                }
-                jsonArray = new JSONArray(Content);//
-//                /*********** Process each JSON Node ************///
-                int lengthJsonArr = jsonArray.length();
-                mBookList = new ArrayList<Book>(lengthJsonArr);
-                for (int i = 0; i < lengthJsonArr; i++) {
-//                    /****** Get Object for each JSON node.***********/
-                    JSONObject jsonChildNode = jsonArray.getJSONObject(i);
+//    //tải tất cả các truyện từ server
+//    public void getAllBooksTask(final AllBookFragment fragment, final ListView listView) {
+//        new AsyncTask<Void, Void, List<Book9>>() {
+//            @Override
+//            protected void onPreExecute() {
+//                Dialog = new ProgressDialog(mContext);
+//                Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+//                Dialog.show();
+//            }
 //
-                    Book book = new Book();
-                    book.setId(jsonChildNode.optInt(Book.KEY_ID));
-                    book.setAuthor(jsonChildNode.optString(Book.KEY_AUTHOR).toString());
-                    book.setCoverUrl(jsonChildNode.optString(Book.KEY_COVER).toString());
-                    book.setChapter(jsonChildNode.optString(Book.KEY_CHAPTER).toString());
-                    book.setDescription(jsonChildNode.optString(Book.KEY_DESCRIPTION).toString());
-                    book.setTitle(jsonChildNode.optString(Book.KEY_TITLE).toString());
-                    book.setView(jsonChildNode.optInt(Book.KEY_VIEW));
-                    book.setGoodPoint(jsonChildNode.optInt(Book.KEY_GOODPOINT));
-                    book.setTotalPoint(jsonChildNode.optInt(Book.KEY_TOTALPOINT));
-                    mBookList.add(book);
-                }
-            } catch (JSONException e) {
-                Log.i("<<NOGIAS>>", e.toString());
-            }
-        }
-        return mBookList;
-    }
+//            @Override
+//            protected List<Book9> doInBackground(Void... voids) {
+//                return getAllBooks("http://wsthichtruyen-1212491.rhcloud.com/?function=0");
+//            }
+//
+//            @Override
+//            protected void onPostExecute(List<Book9> list) {
+//                if (list != null) {
+//                    BookListAdapter adapter = new BookListAdapter(mContext, list);
+//                    listView.setAdapter(adapter);
+//                    fragment.setmBook9s(list);
+//                }
+//                Dialog.dismiss();
+//            }
+//        }.execute();
+//    }
+//
+//    private List<Book9> getAllBooks(String path) {
+//        Context mContext;
+//        String Content = null;
+//        String Error = null;
+//        ProgressDialog Dialog;
+//        String data = "";
+//        List<Book9> mBook9List = null;
+//
+//        BufferedReader reader = null;
+//        try {
+//            URL url = new URL(path);//"http://wsthichtruyen-1212491.rhcloud.com/?function=0");
+//
+//            URLConnection conn = url.openConnection();
+//            conn.setDoOutput(true);
+//            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+//            wr.write(data);
+//            wr.flush();
+//
+//            // Get the server response
+//            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            StringBuilder sb = new StringBuilder();
+//            String line = null;
+//
+//            // Read Server Response
+//            while ((line = reader.readLine()) != null) {
+//                // Append server response in string
+//                sb.append(line + " ");
+//            }
+//
+//            // Append Server Response To Content String
+//            Content = sb.toString();
+//        } catch (Exception ex) {
+//            Error = ex.getMessage();
+//        } finally {
+//            try {
+//                reader.close();
+//            } catch (Exception ex) {
+//                Log.i("<<NOGIAS>>", ex.toString());
+//            }
+//        }
+//
+//        if (Error != null) {
+//            Log.i("<<NOGIAS>>", Error);
+//        } else {
+//            /****************** Start Parse Response JSON Data *************/
+//            JSONArray jsonArray;
+//            try {
+//                /****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+//                Content = Html.fromHtml(Content).toString();
+//                if (Content.equals("")) {
+//                    Log.i("<<NOGIAS>>", "Content: NULL ");
+//                    return null;
+//                }
+//                jsonArray = new JSONArray(Content);//
+////                /*********** Process each JSON Node ************///
+//                int lengthJsonArr = jsonArray.length();
+//                mBook9List = new ArrayList<Book9>(lengthJsonArr);
+//                for (int i = 0; i < lengthJsonArr; i++) {
+////                    /****** Get Object for each JSON node.***********/
+//                    JSONObject jsonChildNode = jsonArray.getJSONObject(i);
+////
+//                    Book9 book9 = new Book9();
+//                    book9.setId(jsonChildNode.optInt(Book9.KEY_ID));
+//                    book9.setAuthor(jsonChildNode.optString(Book9.KEY_AUTHOR).toString());
+//                    book9.setCoverUrl(jsonChildNode.optString(Book9.KEY_COVER).toString());
+//                    book9.setChapter(jsonChildNode.optString(Book9.KEY_CHAPTER).toString());
+//                    book9.setDescription(jsonChildNode.optString(Book9.KEY_DESCRIPTION).toString());
+//                    book9.setTitle(jsonChildNode.optString(Book9.KEY_TITLE).toString());
+//                    book9.setView(jsonChildNode.optInt(Book9.KEY_VIEW));
+//                    book9.setGoodPoint(jsonChildNode.optInt(Book9.KEY_GOODPOINT));
+//                    book9.setTotalPoint(jsonChildNode.optInt(Book9.KEY_TOTALPOINT));
+//                    mBook9List.add(book9);
+//                }
+//            } catch (JSONException e) {
+//                Log.i("<<NOGIAS>>", e.toString());
+//            }
+//        }
+//        return mBook9List;
+//    }
 
     //gửi request rating 1 truyện về server
     public void sendRatingRequestTask(final int storyID, final float ratingPoint) {
@@ -348,7 +355,7 @@ public class LongOperation {
     ///////////////////////
     //tìm các truyện từ server chứa từ khoá
     public void searchBookTask(final String searchKey, final ListView resultList, final SearchingActivity act) {
-        new AsyncTask<Void, Void, List<Book>>() {
+        new AsyncTask<Void, Void, List<Book9>>() {
             @Override
             protected void onPreExecute() {
                 Dialog = new ProgressDialog(mContext);
@@ -357,26 +364,26 @@ public class LongOperation {
             }
 
             @Override
-            protected List<Book> doInBackground(Void... voids) {
+            protected List<Book9> doInBackground(Void... voids) {
                 String str = searchKey.replace(" ", "%20");
                 return searchBook("http://wsthichtruyen-1212491.rhcloud.com/?function=5&title=" + str);
             }
 
             @Override
-            protected void onPostExecute(List<Book> list) {
+            protected void onPostExecute(List<Book9> list) {
                 act.setAdapterForList(list);
                 Dialog.dismiss();
             }
         }.execute();
     }
 
-    private List<Book> searchBook(String path) {
+    private List<Book9> searchBook(String path) {
         Context mContext;
         String Content = null;
         String Error = null;
         ProgressDialog Dialog;
         String data = "";
-        List<Book> mBookList = null;
+        List<Book9> mBook9List = null;
 
         BufferedReader reader = null;
         try {
@@ -428,28 +435,75 @@ public class LongOperation {
 //                /*********** Process each JSON Node ************///
                 int lengthJsonArr = jsonArray.length();
                 Log.i("<<NOGIAS>>", "lengthJsonArr: " + lengthJsonArr);
-                mBookList = new ArrayList<Book>(lengthJsonArr);
+                mBook9List = new ArrayList<Book9>(lengthJsonArr);
                 for (int i = 0; i < lengthJsonArr; i++) {
 //                    /****** Get Object for each JSON node.***********/
                     JSONObject jsonChildNode = jsonArray.getJSONObject(i);
 //
-                    Book book = new Book();
-                    book.setId(jsonChildNode.optInt(Book.KEY_ID));
-                    book.setAuthor(jsonChildNode.optString(Book.KEY_AUTHOR).toString());
-                    book.setCoverUrl(jsonChildNode.optString(Book.KEY_COVER).toString());
-                    book.setChapter(jsonChildNode.optString(Book.KEY_CHAPTER).toString());
-                    book.setDescription(jsonChildNode.optString(Book.KEY_DESCRIPTION).toString());
-                    book.setTitle(jsonChildNode.optString(Book.KEY_TITLE).toString());
-                    book.setView(jsonChildNode.optInt(Book.KEY_VIEW));
-                    book.setGoodPoint(jsonChildNode.optInt(Book.KEY_GOODPOINT));
-                    book.setTotalPoint(jsonChildNode.optInt(Book.KEY_TOTALPOINT));
-                    mBookList.add(book);
+                    Book9 book9 = new Book9();
+                    book9.setId(jsonChildNode.optInt(Book9.KEY_ID));
+                    book9.setAuthor(jsonChildNode.optString(Book9.KEY_AUTHOR).toString());
+                    book9.setCoverUrl(jsonChildNode.optString(Book9.KEY_COVER).toString());
+                    book9.setChapter(jsonChildNode.optString(Book9.KEY_CHAPTER).toString());
+                    book9.setDescription(jsonChildNode.optString(Book9.KEY_DESCRIPTION).toString());
+                    book9.setTitle(jsonChildNode.optString(Book9.KEY_TITLE).toString());
+                    book9.setView(jsonChildNode.optInt(Book9.KEY_VIEW));
+                    book9.setGoodPoint(jsonChildNode.optInt(Book9.KEY_GOODPOINT));
+                    book9.setTotalPoint(jsonChildNode.optInt(Book9.KEY_TOTALPOINT));
+                    mBook9List.add(book9);
                 }
             } catch (JSONException e) {
                 Log.i("<<NOGIAS>>", e.toString());
             }
         }
 
-        return mBookList;
+        return mBook9List;
     }
+
+
+    // MY DOING /////////////////////////////////////////////////////////>>>>>>>
+    //tải tất cả các truyện từ server
+    public void getAllBooksListNEW(final AllBookFragment fragment, final ListView listView){
+        Dialog = new ProgressDialog(mContext);
+        Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+        Dialog.setCancelable(false);
+        Dialog.show();
+
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.getAllBooksList().enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+
+                if(response.isSuccessful()) {
+                    Log.d("<<QWERTY>>", "posts loaded from API");
+                    Log.d("<<QWERTY>>", response.body().toString());
+                    List<Book> list = response.body();
+                    if (list != null) {
+                        BookListAdapter adapter = new BookListAdapter(mContext, list);
+                        listView.setAdapter(adapter);
+//                        fragment.setmBook9s(list);
+                        fragment.setmBooksNEW(list);
+                    }
+                    Dialog.dismiss();
+
+                }else {
+                    int statusCode  = response.code();
+                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.d("<<QWERTY>>", "error loading from API");
+                Log.d("<<QWERTY>>", call.toString());
+                Log.d("<<QWERTY>>", t.toString());
+//                showErrorMessage();
+//                Log.d("MainActivity", "error loading from API");
+            }
+        });
+    }
+    // MY DOING /////////////////////////////////////////////////////////<<<<<<
+
 }

@@ -19,7 +19,7 @@ import android.widget.ListView;
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Activities.ViewerActivity;
 import com.example.n50.s1212491_khosach.Adapters.ChapterListAdapter;
-import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
@@ -73,7 +73,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
                         intent.putExtra("ReadingY", mLocalDatabase.getReadingY(mStoryID));
                         Log.i("<<NOGIAS>>", "ChapterID" + mLocalDatabase.getReadingChapter(mStoryID));
                         Log.i("<<NOGIAS>>", "ReadingY" + mLocalDatabase.getReadingY(mStoryID));
-                        intent.putExtra("Style", Book.STYLE_OFFLINE);
+                        intent.putExtra("Style", Book9.STYLE_OFFLINE);
 
                         ArrayList<String> titleArray = new ArrayList<String>();
                         ArrayList<String> contentArray = new ArrayList<String>();
@@ -211,7 +211,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
         intent.putExtra("BookTitle", mStoryTitle);
         intent.putExtra("ChapterID", position);
         intent.putExtra("ReadingY", 0);
-        intent.putExtra("Style", new Book().STYLE_OFFLINE);
+        intent.putExtra("Style", new Book9().STYLE_OFFLINE);
 
         ArrayList<String> titleArray = new ArrayList<String>();
         ArrayList<String> contentArray = new ArrayList<String>();

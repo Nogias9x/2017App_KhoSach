@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "KhoTruyen.db";
 
-    public static final String BOOK_TABLE_NAME = "Book";
+    public static final String BOOK_TABLE_NAME = "Book9";
     public static final String KEY_B_ID = "StoryID";
     public static final String KEY_B_COVER = "Cover";
     public static final String KEY_B_AUTHOR = "Author";
@@ -42,13 +42,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table IF NOT EXISTS Book (StoryID integer primary key, Title text,Author text, Cover text, ReadingChapter integer, ReadingY integer, Downloaded integer)");
+        db.execSQL("create table IF NOT EXISTS Book9 (StoryID integer primary key, Title text,Author text, Cover text, ReadingChapter integer, ReadingY integer, Downloaded integer)");
         db.execSQL("create table IF NOT EXISTS Chapter (StoryID integer,ChapterID, ChapterTitle text, ChapterContent text, PRIMARY KEY ( StoryID, ChapterTitle))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Book");
+        db.execSQL("DROP TABLE IF EXISTS Book9");
         db.execSQL("DROP TABLE IF EXISTS Chapter");
         onCreate(db);
     }
@@ -64,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("ReadingChapter", 0);
             contentValues.put("ReadingY", 0);
             contentValues.put("Downloaded", 1);
-            db.insertWithOnConflict("Book", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("Book9", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         } else {
             ContentValues cv = new ContentValues();
             cv.put("Downloaded", 1);
@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("ReadingChapter", 0);
             contentValues.put("ReadingY", 0);
             contentValues.put("Downloaded", 0);
-            db.insertWithOnConflict("Book", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("Book9", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         }
         return true;
     }
@@ -133,7 +133,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean checkIfExistDownloadedBook(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "Select * from Book where StoryID = " + id + " and Downloaded = 1";
+        String Query = "Select * from Book9 where StoryID = " + id + " and Downloaded = 1";
         Cursor cursor = db.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
@@ -145,7 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean checkIfExistBook(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "Select * from Book where StoryID = " + id;
+        String Query = "Select * from Book9 where StoryID = " + id;
         Cursor cursor = db.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
@@ -167,27 +167,27 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("Downloaded", 0);
         db.update(BOOK_TABLE_NAME, cv, KEY_B_ID + "= " + id, null);
-//        Integer a= db.delete("Book", "StoryID = " + id.toString(), null);
+//        Integer a= db.delete("Book9", "StoryID = " + id.toString(), null);
         Integer b = db.delete("Chapter", "StoryID = " + id.toString(), null);
         return b;
     }
 
-    public ArrayList<Book> getAllBooks() {
-        ArrayList<Book> array_list = new ArrayList<Book>();
+    public ArrayList<Book9> getAllBooks() {
+        ArrayList<Book9> array_list = new ArrayList<Book9>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book where Downloaded = 1 ORDER BY `Title` ASC", null);
+        Cursor res = db.rawQuery("select * from Book9 where Downloaded = 1 ORDER BY `Title` ASC", null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            Book tempBook = new Book();
-            tempBook.setId(res.getInt(res.getColumnIndex(KEY_B_ID)));
-            tempBook.setTitle(res.getString(res.getColumnIndex(KEY_B_TITLE)));
-            tempBook.setAuthor(res.getString(res.getColumnIndex(KEY_B_AUTHOR)));
-            tempBook.setCoverUrl(res.getString(res.getColumnIndex(KEY_B_COVER)));
-//            tempBook.setmReadingChapter(res.getInt(res.getColumnIndex(KEY_B_READING_CHAPTER)));
-//            tempBook.setmReadingY(res.getInt(res.getColumnIndex(KEY_B_READING_Y)));
-            array_list.add(tempBook);
+            Book9 tempBook9 = new Book9();
+            tempBook9.setId(res.getInt(res.getColumnIndex(KEY_B_ID)));
+            tempBook9.setTitle(res.getString(res.getColumnIndex(KEY_B_TITLE)));
+            tempBook9.setAuthor(res.getString(res.getColumnIndex(KEY_B_AUTHOR)));
+            tempBook9.setCoverUrl(res.getString(res.getColumnIndex(KEY_B_COVER)));
+//            tempBook9.setmReadingChapter(res.getInt(res.getColumnIndex(KEY_B_READING_CHAPTER)));
+//            tempBook9.setmReadingY(res.getInt(res.getColumnIndex(KEY_B_READING_Y)));
+            array_list.add(tempBook9);
             res.moveToNext();
         }
         return array_list;
@@ -196,7 +196,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getReadingChapter(Integer storyID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book where StoryID = " + storyID, null);
+        Cursor res = db.rawQuery("select * from Book9 where StoryID = " + storyID, null);
         res.moveToFirst();
 
         if (res.isAfterLast() == false) {
@@ -207,7 +207,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getReadingY(Integer storyID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book where StoryID = " + storyID, null);
+        Cursor res = db.rawQuery("select * from Book9 where StoryID = " + storyID, null);
         res.moveToFirst();
 
         if (res.isAfterLast() == false) {

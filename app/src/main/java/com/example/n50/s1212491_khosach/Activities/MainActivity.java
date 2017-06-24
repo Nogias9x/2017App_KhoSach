@@ -1,7 +1,6 @@
 package com.example.n50.s1212491_khosach.Activities;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -23,10 +22,12 @@ public class MainActivity extends BaseActivity {
     private ActionBar.Tab mTab2;
     private List<Fragment> mFragmentList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mApplication = super.getmApplication();
         mFragmentList = new ArrayList<Fragment>();
 

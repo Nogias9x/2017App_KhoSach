@@ -10,7 +10,7 @@
         android:id="@+id/cover_iv"
         android:layout_width="@dimen/cover_w"
         android:layout_height="@dimen/cover_h"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/noimage" />
 
     <LinearLayout

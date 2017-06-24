@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Adapters.BookGridAdapter;
-import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Progress.LongOperation;
@@ -25,7 +25,7 @@ import com.example.n50.s1212491_khosach.R;
 import java.util.List;
 
 public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {//, Animation.AnimationListener {
-    private List<Book> mBooks;
+    private List<Book9> mBook9s;
     private DBHelper mLocalDatabase;
     private GridView mGridView;
     private int mPosition = 0;
@@ -54,7 +54,7 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void displayMyBooks() {
-        new AsyncTask<Void, Void, List<Book>>() {
+        new AsyncTask<Void, Void, List<Book9>>() {
 
             @Override
             protected void onPreExecute() {
@@ -64,14 +64,14 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
             }
 
             @Override
-            protected List<Book> doInBackground(Void... voids) {
+            protected List<Book9> doInBackground(Void... voids) {
                 Log.i("<<NOGIAS>>", "doInBackground getAllBooks");
                 return mLocalDatabase.getAllBooks();
             }
 
             @Override
-            protected void onPostExecute(List<Book> list) {
-                mBooks = list;
+            protected void onPostExecute(List<Book9> list) {
+                mBook9s = list;
                 if (list != null) {
                     mGridView.setAdapter(new BookGridAdapter(getActivity(), list));
                 }
@@ -83,12 +83,12 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         LongOperation longOperation = new LongOperation(mContext);
-        longOperation.sendViewTask(mBooks.get(position).getId());
+        longOperation.sendViewTask(mBook9s.get(position).getId());
 
         AllChapterFragment fragment = null;
         fragment = new AllChapterFragment();
-        fragment.setStoryID(mBooks.get(position).getId());
-        fragment.setStoryTitle(mBooks.get(position).getTitle());
+        fragment.setStoryID(mBook9s.get(position).getId());
+        fragment.setStoryTitle(mBook9s.get(position).getTitle());
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
@@ -119,9 +119,9 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         DBHelper db = ((MyApplication) mContext.getApplication()).getmLocalDatabase();
-                        db.deleteBookAndItsChapter(mBooks.get(position).getId());
+                        db.deleteBookAndItsChapter(mBook9s.get(position).getId());
                         ((MyApplication) mContext.getApplication()).setmLocalDatabase(db);
-                        Toast.makeText(mContext, mBooks.get(position).getTitle().toUpperCase() + " đã được xoá khỏi TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, mBook9s.get(position).getTitle().toUpperCase() + " đã được xoá khỏi TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
                         refresh();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -131,7 +131,7 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Bạn có muốn xoá truyện " + mBooks.get(position).getTitle().toUpperCase() + " khỏi TRUYỆN CỦA TÔI không?")
+        builder.setMessage("Bạn có muốn xoá truyện " + mBook9s.get(position).getTitle().toUpperCase() + " khỏi TRUYỆN CỦA TÔI không?")
                 .setPositiveButton("Có", dialogClickListener)
                 .setNegativeButton("Không", dialogClickListener).show();
         return true;

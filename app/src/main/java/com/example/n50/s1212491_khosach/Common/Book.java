@@ -1,142 +1,101 @@
 package com.example.n50.s1212491_khosach.Common;
 
-import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class Book implements Serializable {
-    public static final String KEY = "story";
-    public static final String TABLE_NAME = "story";
-    public static final String KEY_ID = "StoryID";
-    public static final String KEY_COVER = "Cover";
-    public static final String KEY_AUTHOR = "Author";
-    public static final String KEY_VIEW = "View";
-    public static final String KEY_DESCRIPTION = "Description";
-    public static final String KEY_CHAPTER = "Status";
-    public static final String KEY_TITLE = "Title";
-    public static final String KEY_GOODPOINT = "GoodPoint";
-    public static final String KEY_TOTALPOINT = "TotalPoint";
+public class Book {
 
-
-    public static final int STYLE_ONLINE = 0;
-    public static final int STYLE_OFFLINE = 1;
-
-    private int mId;
+    @SerializedName("mBookId")
+    @Expose
+    private int mBookId;
+    @SerializedName("mBookName")
+    @Expose
+    private String mBookName;
+    @SerializedName("mCategory")
+    @Expose
+    private int mCategory;
+    @SerializedName("mAuthorId")
+    @Expose
+    private int mAuthorId;
+    @SerializedName("mAuthorName")
+    @Expose
+    private String mAuthorName;
+    @SerializedName("mPublicYear")
+    @Expose
+    private int mPublicYear;
+    @SerializedName("mAppReleaseDate")
+    @Expose
+    private String mAppReleaseDate;
+    @SerializedName("mTranslator")
+    @Expose
+    private Object mTranslator;
+    @SerializedName("mIntroduction")
+    @Expose
+    private String mIntroduction;
+    @SerializedName("mCoverUrl")
+    @Expose
     private String mCoverUrl;
-    private String mTitle;
-    private String mAuthor;
-    private String mDescription;
-    private long mView;
-    private String mChapter;
-    private long mLastVisit;
-    private int mGoodPoint;
-    private int mTotalPoint;
 
-    private int mReadingChapter;
-    private int mReadingY;
 
-    public long getLastVisit() {
-        return mLastVisit;
-    }
+    @SerializedName("mViews")
+    @Expose
+    private int mViews;
+    @SerializedName("mRatingPoints")
+    @Expose
+    private float mRatingPoints;
+    @SerializedName("mRatingTimes")
+    @Expose
+    private int mRatingTimes;
+    @SerializedName("mChapterNumber")
+    @Expose
+    private int mChapterNumber;
 
-    public void setLastVisit(long visit) {
-        mLastVisit = visit;
-    }
 
-    public Book() {
+    public int getBookId() { return mBookId; }
+    public void setBookId(int mBookId) { this.mBookId = mBookId; }
 
-    }
+    public String getBookName() { return mBookName; }
+    public void setBookName(String mBookName) { this.mBookName = mBookName; }
 
-    public Book(String title, String coverUrl, String author, String description, long view, String chapter) {
-        mTitle = title;
-        mAuthor = author;
-        mCoverUrl = coverUrl;
-        mDescription = description;
-        mView = view;
-        mChapter = chapter;
-    }
+    public String getAuthorName() { return mAuthorName; }
+    public void setAuthorName(String mAuthorName) { this.mAuthorName = mAuthorName; }
 
-    public int getId() {
-        return mId;
-    }
+    public int getCategory() { return mCategory; }
+    public void setCategory(int mCategory) { this.mCategory = mCategory; }
 
-    public void setId(int id) {
-        mId = id;
-    }
+    public int getAuthorId() { return mAuthorId; }
+    public void setAuthorId(int mAuthorId) { this.mAuthorId = mAuthorId; }
 
-    public String getCoverUrl() {
-        return mCoverUrl;
-    }
+    public int getPublicYear() { return mPublicYear; }
+    public void setPublicYear(int mPublicYear) { this.mPublicYear = mPublicYear; }
 
-    public void setCoverUrl(String coverUrl) {
-        mCoverUrl = coverUrl;
-    }
+    public String getAppReleaseDate() { return mAppReleaseDate; }
+    public void setAppReleaseDate(String mAppReleaseDate) { this.mAppReleaseDate = mAppReleaseDate; }
 
-    public String getTitle() {
-        return mTitle;
-    }
+    public Object getTranslator() { return mTranslator; }
+    public void setTranslator(Object mTranslator) { this.mTranslator = mTranslator; }
 
-    public void setTitle(String title) {
-        mTitle = title;
-    }
+    public String getIntroduction() { return mIntroduction; }
+    public void setIntroduction(String mIntroduction) { this.mIntroduction = mIntroduction; }
 
-    public String getAuthor() {
-        return mAuthor;
-    }
+    public String getCoverUrl() { return mCoverUrl; }
+    public void setCoverUrl(String mCoverUrl) { this.mCoverUrl = mCoverUrl; }
 
-    public void setAuthor(String author) {
-        mAuthor = author;
-    }
 
-    public String getDescription() {
-        return mDescription;
-    }
+    public int getViews() { return mViews; }
+    public void setViews(int mViews) { this.mViews = mViews; }
 
-    public void setDescription(String description) {
-        mDescription = description;
-    }
 
-    public long getView() {
-        return mView;
-    }
+    public float getRatingPoints() { return mRatingPoints; }
+    public void setRatingPoints(float mRatingPoints) { this.mRatingPoints = mRatingPoints; }
 
-    public void setView(long view) {
-        mView = view;
-    }
 
-    public String getChapter() {
-        return mChapter;
-    }
+    public int getRatingTimes() { return mRatingTimes; }
+    public void setRatingTimes(int mRatingTimes) { this.mRatingTimes = mRatingTimes; }
 
-    public void setChapter(String chapter) {
-        mChapter = chapter;
-    }
+    public int getChapterNumber() { return mChapterNumber; }
+    public void setChapterNumber(int mChapterNumber) { this.mChapterNumber = mChapterNumber; }
 
-    public void setTotalPoint(int mTotalPoint) {
-        this.mTotalPoint = mTotalPoint;
-    }
 
-    public void setGoodPoint(int mGoodPoint) {
-        this.mGoodPoint = mGoodPoint;
-    }
 
-    public float getRating() {
-        if (mTotalPoint == 0) return 0;
-        return (float) mGoodPoint * 5 / mTotalPoint;
-    }
-
-    public int getmReadingChapter() {
-        return mReadingChapter;
-    }
-
-    public int getmReadingY() {
-        return mReadingY;
-    }
-
-    public void setmReadingChapter(int mReadingChapter) {
-        this.mReadingChapter = mReadingChapter;
-    }
-
-    public void setmReadingY(int mReadingY) {
-        this.mReadingY = mReadingY;
-    }
 }
-

@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Utils;
 import com.example.n50.s1212491_khosach.R;
 
@@ -21,9 +21,9 @@ import java.util.List;
 
 public class BookGridAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Book> mList;
+    private List<Book9> mList;
 
-    public BookGridAdapter(Context context, List<Book> list) {
+    public BookGridAdapter(Context context, List<Book9> list) {
         mContext = context;
         mList = list;
     }
@@ -58,11 +58,11 @@ public class BookGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Book book = mList.get(position);
-        if (book != null) {
-            //Utils.downloadImage(viewHolder.coverIv, book.getCoverUrl());
-            Utils.loadImageFromUrl(mContext, viewHolder.coverIv, book.getCoverUrl());
-            viewHolder.titleTv.setText(book.getTitle());
+        Book9 book9 = mList.get(position);
+        if (book9 != null) {
+            //Utils.downloadImage(viewHolder.coverIv, book9.getCoverUrl());
+//            Utils.loadImageFromUrl(mContext, viewHolder.coverIv, book9.getCoverUrl());
+            viewHolder.titleTv.setText(book9.getTitle());
         }
 
         return convertView;

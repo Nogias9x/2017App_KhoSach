@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.n50.s1212491_khosach.Adapters.BookListAdapter;
-import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Progress.LongOperation;
@@ -31,14 +30,14 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
     private ImageButton mSearchButton_ib;
     private ListView mResultList_lv;
 
-    private List<Book> mBookList;
+    private List<Book9> mBook9List;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
 
-        mLongOperation = new LongOperation(this);
+//        mLongOperation = new LongOperation(this);//TO UNCOMMENT
         mSearchKey_et = (EditText) findViewById(R.id.search_title_tv);
         mSearchButton_ib = (ImageButton) findViewById(R.id.search_search_btn);
         mResultList_lv = (ListView) findViewById(R.id.search_result_list_lv);
@@ -52,13 +51,13 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_search_btn:
-                mBookList = null;
+                mBook9List = null;
                 String searchKey = mSearchKey_et.getText().toString();
                 if (searchKey.equals("")) {
                     Toast.makeText(this, "Vui lòng nhập từ khoá", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mLongOperation.searchBookTask(searchKey, mResultList_lv, this);
+//                mLongOperation.searchBookTask(searchKey, mResultList_lv, this);//TO UNCOMMENT
 
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -71,16 +70,16 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    public void setAdapterForList(List<Book> list) {
-        mBookList = list;
-        BookListAdapter adapter = new BookListAdapter(this, mBookList);
-        mResultList_lv.setAdapter(adapter);
+    public void setAdapterForList(List<Book9> list) {
+        mBook9List = list;
+//        BookListAdapter adapter = new BookListAdapter(this, mBook9List);//TO UNCOMMENT
+//        mResultList_lv.setAdapter(adapter);//TO UNCOMMENT
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
-        detailIntent.putExtra("selectedBook", mBookList.get(position));
+        detailIntent.putExtra("selectedBook", mBook9List.get(position));
         this.startActivity(detailIntent);
     }
 
@@ -92,13 +91,13 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         DBHelper db = ((MyApplication) getApplication()).getmLocalDatabase();
-                        if (db.checkIfExistDownloadedBook(mBookList.get(position).getId()) == true) {
-                            Toast.makeText(SearchingActivity.this, mBookList.get(position).getTitle().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
+                        if (db.checkIfExistDownloadedBook(mBook9List.get(position).getId()) == true) {
+                            Toast.makeText(SearchingActivity.this, mBook9List.get(position).getTitle().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
                         } else {
-                            db.insertDownloadedBook(mBookList.get(position).getId(), mBookList.get(position).getTitle(), mBookList.get(position).getAuthor(), mBookList.get(position).getCoverUrl());
+                            db.insertDownloadedBook(mBook9List.get(position).getId(), mBook9List.get(position).getTitle(), mBook9List.get(position).getAuthor(), mBook9List.get(position).getCoverUrl());
 
                             //tải và thêm các chapter của book xuống local database
-                            mLongOperation.getAllChaptersTask(mBookList.get(position).getId());
+                            mLongOperation.getAllChaptersTask(mBook9List.get(position).getId());
                             ((MyApplication) getApplication()).setmLocalDatabase(db);
                         }
                         break;
@@ -111,7 +110,7 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
 
         //////////
         AlertDialog.Builder builder = new AlertDialog.Builder(SearchingActivity.this);
-        builder.setMessage("Bạn có muốn thêm truyện " + mBookList.get(position).getTitle().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
+        builder.setMessage("Bạn có muốn thêm truyện " + mBook9List.get(position).getTitle().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
                 .setPositiveButton("Có", dialogClickListener)
                 .setNegativeButton("Không", dialogClickListener).show();
         return true;

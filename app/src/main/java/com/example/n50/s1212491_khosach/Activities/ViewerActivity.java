@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -18,7 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.n50.s1212491_khosach.Common.Book;
+import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
@@ -47,7 +46,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     private ArrayList<String> mContentArray = new ArrayList<String>();
     private int mPosition;
     private int mReadStyle;
-    private Book mBook;
+    private Book9 mBook9;
     private Chapter mChapter;
     private ProgressDialog mDialog;
     private DBHelper mLocalDatabase;
@@ -62,7 +61,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_viewer);
 
         mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
-        mBook = new Book();
+        mBook9 = new Book9();
 
         getActionBar().setDisplayShowTitleEnabled(true);
         mScrollView = (ScrollView) findViewById(R.id.viewer_scrollView);
@@ -86,29 +85,29 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
         mChapter = new Chapter();
         Intent callerIntent = getIntent();
-        mBook.setTitle(callerIntent.getStringExtra("BookTitle"));
-        mReadStyle = callerIntent.getIntExtra("Style", mBook.STYLE_ONLINE);
+        mBook9.setTitle(callerIntent.getStringExtra("BookTitle"));
+        mReadStyle = callerIntent.getIntExtra("Style", mBook9.STYLE_ONLINE);
 
-        if (mReadStyle == mBook.STYLE_OFFLINE) {
+        if (mReadStyle == mBook9.STYLE_OFFLINE) {
             mPosition = callerIntent.getIntExtra("position", -1);
             mTitleArray = callerIntent.getStringArrayListExtra("titleArray");
             mContentArray = callerIntent.getStringArrayListExtra("contentArray");
-            mBook.setmReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
-            mBook.setmReadingY(callerIntent.getIntExtra("ReadingY", 0));//
+            mBook9.setmReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
+            mBook9.setmReadingY(callerIntent.getIntExtra("ReadingY", 0));//
 
-            changeChapter(mBook.getmReadingChapter(), mBook.getmReadingY());
+            changeChapter(mBook9.getmReadingChapter(), mBook9.getmReadingY());
 
-        } else if (mReadStyle == mBook.STYLE_ONLINE) {
+        } else if (mReadStyle == mBook9.STYLE_ONLINE) {
             Intent callerIntent1 = getIntent();
-            mBook.setId(callerIntent1.getIntExtra("BookID", -1));
-            mBook.setCoverUrl(callerIntent.getStringExtra("BookCover"));
-            mBook.setmReadingChapter(callerIntent1.getIntExtra("ChapterID", -1));
-            mBook.setmReadingY(callerIntent1.getIntExtra("ReadingY", 0));
-            if (mBook.getId() == -1 || mBook.getmReadingChapter() == -1) {
+            mBook9.setId(callerIntent1.getIntExtra("BookID", -1));
+            mBook9.setCoverUrl(callerIntent.getStringExtra("BookCover"));
+            mBook9.setmReadingChapter(callerIntent1.getIntExtra("ChapterID", -1));
+            mBook9.setmReadingY(callerIntent1.getIntExtra("ReadingY", 0));
+            if (mBook9.getId() == -1 || mBook9.getmReadingChapter() == -1) {
                 Toast.makeText(this, "Nội dung này không thể đọc!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            getChapterTask(mBook.getId(), mBook.getmReadingChapter(), mBook.getmReadingY());
+            getChapterTask(mBook9.getId(), mBook9.getmReadingChapter(), mBook9.getmReadingY());
         }
     }
 
@@ -125,7 +124,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         if (mPosition == 0) mPrevChapter.setVisibility(View.INVISIBLE);
         if (mPosition >= mTitleArray.size() - 1) mNextChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBook.getTitle() + " - " + mTitleArray.get(mPosition));
+        getActionBar().setTitle(mBook9.getTitle() + " - " + mTitleArray.get(mPosition));
 
         mChapterTitle.setText(mTitleArray.get(mPosition));
         mChapterContent.setText(mContentArray.get(mPosition));
@@ -141,7 +140,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int position = -1;
-        if (mReadStyle == mBook.STYLE_ONLINE) position = mPosition;
+        if (mReadStyle == mBook9.STYLE_ONLINE) position = mPosition;
         switch (v.getId()) {
             case R.id.viewer_prev_btn:
                 position = mPosition - 1;
@@ -167,21 +166,21 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 return;
         }
 
-        if (mReadStyle == mBook.STYLE_OFFLINE) {
+        if (mReadStyle == mBook9.STYLE_OFFLINE) {
             if (position < 0 || position >= mTitleArray.size()) {
                 Toast.makeText(this, "Không thể chuyển chương", Toast.LENGTH_SHORT).show();
                 return;
             }
             changeChapter(position, 0);
             return;
-        } else if (mReadStyle == mBook.STYLE_ONLINE) {
+        } else if (mReadStyle == mBook9.STYLE_ONLINE) {
             if (position < 0) {
                 Toast.makeText(this, "Không thể chuyển chương", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mBook.setmReadingChapter(position);
+            mBook9.setmReadingChapter(position);
             mChapter = null;
-            getChapterTask(mBook.getId(), position, 0);
+            getChapterTask(mBook9.getId(), position, 0);
         }
     }
 
@@ -357,7 +356,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         mNextChapter.setVisibility(View.VISIBLE);
         if (mChapter.getmChapterId() == 0) mPrevChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBook.getTitle() + " - " + mChapter.getmTitle());
+        getActionBar().setTitle(mBook9.getTitle() + " - " + mChapter.getmTitle());
 
         mChapterTitle.setText(mChapter.getmTitle());
         mChapterContent.setText(mChapter.getmContent());
@@ -403,9 +402,9 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     protected void onStop() {
         mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
 
-        if (mReadStyle == Book.STYLE_ONLINE)
-            mLocalDatabase.insertNondownloadedBook(mBook.getId(), mBook.getTitle(), mBook.getAuthor(), mBook.getCoverUrl());
-        mLocalDatabase.setReadingPositon(mBook.getId(), mPosition, (int) mScrollView.getScrollY());
+        if (mReadStyle == Book9.STYLE_ONLINE)
+            mLocalDatabase.insertNondownloadedBook(mBook9.getId(), mBook9.getTitle(), mBook9.getAuthor(), mBook9.getCoverUrl());
+        mLocalDatabase.setReadingPositon(mBook9.getId(), mPosition, (int) mScrollView.getScrollY());
         ((MyApplication) getApplication()).setmLocalDatabase(mLocalDatabase);
         super.onStop();
     }
