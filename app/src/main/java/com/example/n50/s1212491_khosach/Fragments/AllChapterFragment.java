@@ -21,6 +21,7 @@ import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Activities.ViewerActivity;
 import com.example.n50.s1212491_khosach.Adapters.ChapterListAdapter;
 import com.example.n50.s1212491_khosach.Common.Book9;
+import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
@@ -40,6 +41,7 @@ import java.util.List;
 
 public class AllChapterFragment extends Fragment implements AdapterView.OnItemClickListener {
     private List<Chapter9> mChapter9s = null;
+    private List<Chapter> mChaptersNEW = null;
     private ListView mListView;
     private MainActivity mContext;
     private ProgressDialog Dialog;
@@ -109,7 +111,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
 
 
     private void getAllChaptersTask() {
-        new AsyncTask<Void, Void, List<Chapter9>>() {
+        new AsyncTask<Void, Void, List<Chapter>>() {
             @Override
             protected void onPreExecute() {
                 Dialog = new ProgressDialog(mContext);
@@ -118,15 +120,15 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
             }
 
             @Override
-            protected List<Chapter9> doInBackground(Void... voids) {
+            protected List<Chapter> doInBackground(Void... voids) {
                 return mLocalDatabase.getAllChapters(mStoryID);
             }
 
             @Override
-            protected void onPostExecute(List<Chapter9> list) {
+            protected void onPostExecute(List<Chapter> list) {
                 if (list != null) {
-                    mChapter9s = list;
-                    ChapterListAdapter adapter = new ChapterListAdapter(getActivity(), mChapter9s);
+                    mChaptersNEW = list;
+                    ChapterListAdapter adapter = new ChapterListAdapter(getActivity(), mChaptersNEW);
                     mListView.setAdapter(adapter);
                 }
                 Dialog.dismiss();

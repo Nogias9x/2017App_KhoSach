@@ -507,6 +507,48 @@ public class LongOperation {
     }
 
 
+
+    //tải tất cả các chapter của một truyện từ server và lưu vào database
+    public void getAllChapterOfBooksNEW(int bookId){
+        Dialog = new ProgressDialog(mContext);
+        Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+        Dialog.show();
+
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.getAllChaptersOfBook(bookId).enqueue(new Callback<List<Chapter>>() {
+            @Override
+            public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
+
+                if(response.isSuccessful()) {
+                    Log.d("<<QWERTY>>", "posts loaded from API");
+                    Log.d("<<QWERTY>>", response.body().toString());
+                    List<Chapter> list = response.body();
+
+                    DBHelper db = ((MyApplication) mContext.getApplication()).getmLocalDatabase();
+                    if (list != null) {
+                        for (int i = 0; i < list.size(); i++) {
+                            Chapter c = list.get(i);
+                            db.insertChapter(c.getBookId(), c.getChapterIndex(), c.getChapterName(), c.getContent());
+                        }
+                    }
+                    ((MyApplication) mContext.getApplication()).setmLocalDatabase(db);
+                    Dialog.dismiss();
+                    Toast.makeText(mContext, "Truyện đã được thêm vào TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    int statusCode  = response.code();
+                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Chapter>> call, Throwable t) {
+                Log.d("<<QWERTY>>", "error loading from API");
+            }
+        });
+    }
     // MY DOING /////////////////////////////////////////////////////////<<<<<<
 
 }

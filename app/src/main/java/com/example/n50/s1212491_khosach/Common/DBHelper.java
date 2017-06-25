@@ -27,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String KEY_B_READING_Y = "ReadingY";
 
 
-    public static final String CHAPTER_TABLE_NAME = "Chapter9";
+    public static final String CHAPTER_TABLE_NAME = "Chapter";
     public static final String KEY_C_STORYID = "StoryID";
     public static final String KEY_C_CHAPTERID = "ChapterID";
     public static final String KEY_C_TITLE = "ChapterTitle";
@@ -42,14 +42,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table IF NOT EXISTS Book9 (StoryID integer primary key, Title text,Author text, Cover text, ReadingChapter integer, ReadingY integer, Downloaded integer)");
-        db.execSQL("create table IF NOT EXISTS Chapter9 (StoryID integer,ChapterID, ChapterTitle text, ChapterContent text, PRIMARY KEY ( StoryID, ChapterTitle))");
+        db.execSQL("create table IF NOT EXISTS Book (StoryID integer primary key, Title text,Author text, Cover text, ReadingChapter integer, ReadingY integer, Downloaded integer)");
+        db.execSQL("create table IF NOT EXISTS Chapter (StoryID integer,ChapterID, ChapterTitle text, ChapterContent text, PRIMARY KEY ( StoryID, ChapterTitle))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Book9");
-        db.execSQL("DROP TABLE IF EXISTS Chapter9");
+        db.execSQL("DROP TABLE IF EXISTS Book");
+        db.execSQL("DROP TABLE IF EXISTS Chapter");
         onCreate(db);
     }
 
@@ -64,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("ReadingChapter", 0);
             contentValues.put("ReadingY", 0);
             contentValues.put("Downloaded", 1);
-            db.insertWithOnConflict("Book9", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("Book", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         } else {
             ContentValues cv = new ContentValues();
             cv.put("Downloaded", 1);
@@ -97,33 +97,33 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("ChapterID", ChapterID);
         contentValues.put("ChapterTitle", ChapterTitle);
         contentValues.put("ChapterContent", ChapterContent);
-        db.insertWithOnConflict("Chapter9", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict("Chapter", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         return true;
     }
 
-//    public boolean insertAllChapters(List<Chapter9> ChapterList)
+//    public boolean insertAllChapters(List<Chapter> ChapterList)
 //    {
 //        //insert book's chapters
 //        for(int i= 0; i<ChapterList.size(); i++){
-//            Chapter9 c= ChapterList.get(i);
+//            Chapter c= ChapterList.get(i);
 //            insertChapter(c.getmStoryId(), c.getmChapterId(), c.getmTitle(), c.getmContent());
 //        }
 //        return true;
 //    }
 
-    public List<Chapter9> getAllChapters(int StoryID) {
-        List<Chapter9> list = new ArrayList<Chapter9>();
+    public List<Chapter> getAllChapters(int StoryID) {
+        List<Chapter> list = new ArrayList<Chapter>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Chapter9 where StoryID = " + StoryID + " ORDER BY `ChapterID` ASC", null);
+        Cursor res = db.rawQuery("select * from Chapter where StoryID = " + StoryID + " ORDER BY `ChapterID` ASC", null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            Chapter9 chap = new Chapter9();
-            chap.setmStoryId(res.getInt(res.getColumnIndex(KEY_C_STORYID)));
-            chap.setmChapterId(res.getInt(res.getColumnIndex(KEY_C_CHAPTERID)));
-            chap.setmTitle(res.getString(res.getColumnIndex(KEY_C_TITLE)));
-            chap.setmContent(res.getString(res.getColumnIndex(KEY_C_CONTENT)));
+            Chapter chap = new Chapter();
+            chap.setBookId(res.getInt(res.getColumnIndex(KEY_C_STORYID)));
+            chap.setChapterIndex(res.getInt(res.getColumnIndex(KEY_C_CHAPTERID)));
+            chap.setChapterName(res.getString(res.getColumnIndex(KEY_C_TITLE)));
+            chap.setContent(res.getString(res.getColumnIndex(KEY_C_CONTENT)));
             list.add(chap);
             res.moveToNext();
         }
@@ -133,7 +133,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean checkIfExistDownloadedBook(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "Select * from Book9 where StoryID = " + id + " and Downloaded = 1";
+        String Query = "Select * from Book where StoryID = " + id + " and Downloaded = 1";
         Cursor cursor = db.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
@@ -145,7 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean checkIfExistBook(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "Select * from Book9 where StoryID = " + id;
+        String Query = "Select * from Book where StoryID = " + id;
         Cursor cursor = db.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
@@ -167,8 +167,8 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("Downloaded", 0);
         db.update(BOOK_TABLE_NAME, cv, KEY_B_ID + "= " + id, null);
-//        Integer a= db.delete("Book9", "StoryID = " + id.toString(), null);
-        Integer b = db.delete("Chapter9", "StoryID = " + id.toString(), null);
+//        Integer a= db.delete("Book", "StoryID = " + id.toString(), null);
+        Integer b = db.delete("Chapter", "StoryID = " + id.toString(), null);
         return b;
     }
 
@@ -176,7 +176,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Book> array_list = new ArrayList<Book>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book9 where Downloaded = 1 ORDER BY `Title` ASC", null);
+        Cursor res = db.rawQuery("select * from Book where Downloaded = 1 ORDER BY `Title` ASC", null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
@@ -185,8 +185,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tempBook.setBookName(res.getString(res.getColumnIndex(KEY_B_TITLE)));
             tempBook.setAuthorName(res.getString(res.getColumnIndex(KEY_B_AUTHOR)));
             tempBook.setCoverUrl(res.getString(res.getColumnIndex(KEY_B_COVER)));
-//            tempBook9.setmReadingChapter(res.getInt(res.getColumnIndex(KEY_B_READING_CHAPTER)));
-//            tempBook9.setmReadingY(res.getInt(res.getColumnIndex(KEY_B_READING_Y)));
+//            tempBook.setmReadingChapter(res.getInt(res.getColumnIndex(KEY_B_READING_CHAPTER)));
+//            tempBook.setmReadingY(res.getInt(res.getColumnIndex(KEY_B_READING_Y)));
             array_list.add(tempBook);
             res.moveToNext();
         }
@@ -196,7 +196,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getReadingChapter(Integer storyID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book9 where StoryID = " + storyID, null);
+        Cursor res = db.rawQuery("select * from Book where StoryID = " + storyID, null);
         res.moveToFirst();
 
         if (res.isAfterLast() == false) {
@@ -207,7 +207,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getReadingY(Integer storyID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from Book9 where StoryID = " + storyID, null);
+        Cursor res = db.rawQuery("select * from Book where StoryID = " + storyID, null);
         res.moveToFirst();
 
         if (res.isAfterLast() == false) {

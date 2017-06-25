@@ -81,7 +81,7 @@ public class AllBookFragment extends Fragment implements AdapterView.OnItemClick
                             db.insertDownloadedBook(mBooksNEW.get(position).getBookId(), mBooksNEW.get(position).getBookName(), mBooksNEW.get(position).getAuthorName(), mBooksNEW.get(position).getCoverUrl());
 
                             //tải và thêm các chapter của book xuống local database
-                            mLongOperation.getAllChaptersTask(mBooksNEW.get(position).getBookId());
+                            mLongOperation.getAllChapterOfBooksNEW(mBooksNEW.get(position).getBookId());//getAllChaptersTask(mBooksNEW.get(position).getBookId());
                             ((MyApplication) mContext.getApplication()).setmLocalDatabase(db);
                         }
                         break;

@@ -24,6 +24,12 @@ public class Chapter {
     @Expose
     public String mContent;
 
+    public String getShortDescription() {
+        if (mContent.length() < 300)
+            return mContent + "...";
+        return mContent.substring(0, 300) + "...";
+    }
+
     public int getChapterId() { return mChapterId; }
     public void setChapterId(int mChapterId) { this.mChapterId = mChapterId; }
     public int getBookId() { return mBookId; }

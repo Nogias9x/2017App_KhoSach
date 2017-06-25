@@ -2,7 +2,7 @@
 <resources>
     <color name="colorText333">#333</color>
     <color name="list_row_title">#4db6fd</color>
-    <color name="list_row_text">#88eeeeee</color>
+    <color name="list_row_text">#cceeeeee</color>
     <color name="list_row_author">#eeeeee</color>
     <color name="grid_cell_title_bg">#44000000</color>
     <color name="grid_cell_title_text">#ffffff</color>
