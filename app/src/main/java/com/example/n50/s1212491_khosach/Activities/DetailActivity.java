@@ -110,7 +110,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 case DialogInterface.BUTTON_POSITIVE:
                                     mCurrentRating = ratingRb.getRating();
                                     LongOperation longOperation = new LongOperation(DetailActivity.this);
-                                    longOperation.sendRatingRequestTask(mBookNEW.getBookId(), mCurrentRating);
+                                    longOperation.rateBookNEW(mBookNEW.getBookId(), mCurrentRating);
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     ratingRb.setRating(mCurrentRating);
@@ -121,7 +121,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
                     //////////
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                    builder.setMessage("Bạn có muốn đánh giá truyện " + mBookNEW.getBookName() + " với " + ratingRb.getRating() + " sao không?")
+                    builder.setMessage("Bạn có muốn đánh giá truyện \"" + mBookNEW.getBookName() + "\" với " + ratingRb.getRating() + " sao không?")
                             .setPositiveButton("Có", dialogClickListener)
                             .setNegativeButton("Không", dialogClickListener).show();
                 }

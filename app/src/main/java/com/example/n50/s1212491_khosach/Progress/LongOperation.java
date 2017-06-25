@@ -42,54 +42,6 @@ public class LongOperation {
         this.mContext = mContext;
     }
 
-    //gửi request rating 1 truyện về server
-    public void sendRatingRequestTask(final int storyID, final float ratingPoint) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                sendRatingRequest(storyID, ratingPoint);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                Handler handler = new Handler(mContext.getMainLooper());
-                Runnable showingToastTask = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, R.string.msg_rate_success, Toast.LENGTH_SHORT).show();
-                    }
-                };
-                handler.post(showingToastTask);
-            }
-        }.execute();
-    }
-
-    private void sendRatingRequest(int storyID, float ratingPoint) {
-        String data = "";
-        BufferedReader reader = null;
-        String path = "http://wsthichtruyen-1212491.rhcloud.com/?function=3&storyID=" + storyID + "&ratingPoint=" + ratingPoint;
-        Log.i("<<NOGIAS>>", "sendRatingRequest: " + path);
-        try {
-            URL url = new URL(path);
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } catch (Exception e) {
-            Log.e("<<ERROR>>", e.toString());
-        }
-    }
-
-
     ////gửi request rating 1 truyện về server
     public void sendViewTask(final int storyID) {
         new AsyncTask<Void, Void, Void>() {
@@ -252,6 +204,46 @@ public class LongOperation {
         });
     }
 
+
+    //rating truyện
+    public void rateBookNEW(int bookId, float point){
+        Dialog = new ProgressDialog(mContext);
+        Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg_rating));
+        Dialog.show();
+
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.rateBook(bookId, point).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.isSuccessful()) {
+                    Log.d("<<QWERTY>>", "posts loaded from API");
+                    Log.d("<<QWERTY>>", response.body().toString());
+                    Boolean result = Boolean.parseBoolean(response.body().toString());
+                    Dialog.dismiss();
+                }else {
+                    int statusCode  = response.code();
+                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                    // handle request errors depending on status code
+                    Handler handler = new Handler(mContext.getMainLooper());
+                    Runnable showingToastTask = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, R.string.msg_rate_success, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(showingToastTask);
+                    Dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.d("<<QWERTY>>", "error loading from API");
+                Dialog.dismiss();
+            }
+        });
+    }
     // MY DOING /////////////////////////////////////////////////////////<<<<<<
 
 }

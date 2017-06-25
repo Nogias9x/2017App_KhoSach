@@ -25,6 +25,7 @@
 
     <!-- ProgressDialog -->
     <string name="progress_msg">Đang tải dữ liệu ...</string>
+    <string name="progress_msg_rating">Đang đánh giá ...</string>
 
     <!-- message -->
     <string name="msg_no_internet">Không có kết nối, vui lòng kiểm tra tín hiệu!</string>

@@ -355,7 +355,6 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             mLocalDatabase.insertNondownloadedBook(mBookNEW.getBookId(), mBookNEW.getBookName(), mBookNEW.getAuthorName(), mBookNEW.getCoverUrl());
         mLocalDatabase.setReadingPositon(mBookNEW.getBookId(), mBookNEW.getReadingChapter(), (int) mScrollView.getScrollY());
         ((MyApplication) getApplication()).setmLocalDatabase(mLocalDatabase);
-        Log.e("QWERTY", "mBookNEW.getBookId(): " + mBookNEW.getBookId() + "; mBookNEW.getReadingChapter(): " + mBookNEW.getReadingChapter());
         super.onStop();
     }
 }

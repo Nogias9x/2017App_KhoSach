@@ -7,16 +7,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MyWebService {
-
     // https://ws-thich-truyen.herokuapp.com/getAllBooksList
     @GET("/getAllBooksList")
     Call<List<Book>> getAllBooksList();
 
-
     // https://ws-thich-truyen.herokuapp.com/getChapterOfBook?bookId=2&chapterIndex=3
     @GET("/getChapterOfBook")
     Call<List<Chapter>> getAllChaptersOfBook(@Query("bookId") int bookId);
-
 
     // https://ws-thich-truyen.herokuapp.com/getChapterOfBook?bookId=2&chapterIndex=3
     @GET("/getChapterOfBook")
@@ -26,7 +23,6 @@ public interface MyWebService {
     @GET("/searchBook")
     Call<List<Book>> searchBook(@Query("bookName") String bookName);
 
-
-//    @GET("/answers?order=desc&sort=activity&site=stackoverflow")
-//    Call<SOAnswersResponse> getAnswers(@Query("tagged") String tags);
+    @GET("/rateBook")
+    Call<Boolean> rateBook(@Query("bookId") int bookName, @Query("point") float point);
 }
