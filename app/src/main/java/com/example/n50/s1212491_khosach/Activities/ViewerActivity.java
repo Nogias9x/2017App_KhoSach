@@ -52,7 +52,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     private Button mNextChapter;
     private ArrayList<String> mTitleArray = new ArrayList<String>();
     private ArrayList<String> mContentArray = new ArrayList<String>();
-    private int mPosition;
+//    private int mPosition;
     private int mReadStyle;
 //    private Book9 mBook9;
     private Book mBookNEW;
@@ -99,9 +99,10 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         mReadStyle = callerIntent.getIntExtra("Style", mBookNEW.STYLE_ONLINE);
 
         if (mReadStyle == mBookNEW.STYLE_OFFLINE) {
-            mPosition = callerIntent.getIntExtra("position", 0);
+//            mPosition = callerIntent.getIntExtra("position", 0);
             mTitleArray = callerIntent.getStringArrayListExtra("titleArray");
             mContentArray = callerIntent.getStringArrayListExtra("contentArray");
+            mBookNEW.setBookId(callerIntent.getIntExtra("BookID", -1));//
             mBookNEW.setReadingChapter(callerIntent.getIntExtra("ChapterID", 1));//
             mBookNEW.setReadingY(callerIntent.getIntExtra("ReadingY", 0));//
 
@@ -122,23 +123,24 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void changeChapter(int chapter, final int y) {
-        this.mPosition = chapter - 1;
+//        this.mPosition = chapter - 1;
 
-        if (mPosition == -1) {
+        if (chapter == 0) {
             Toast.makeText(this, "Chương được chọn không tồn tại!!!", Toast.LENGTH_LONG).show();
             return;
         }
 
         mPrevChapter.setVisibility(View.VISIBLE);
         mNextChapter.setVisibility(View.VISIBLE);
-        if (mPosition == 1) mPrevChapter.setVisibility(View.INVISIBLE);
-        if (mPosition >= mTitleArray.size()) mNextChapter.setVisibility(View.INVISIBLE);
+        if (chapter == 2) mPrevChapter.setVisibility(View.INVISIBLE);
+        if (chapter > mTitleArray.size()) mNextChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mTitleArray.get(mPosition));
+        getActionBar().setTitle(mTitleArray.get(chapter-1));
 
-        mChapterTitle.setText(mTitleArray.get(mPosition));
-        mChapterContent.setText(mContentArray.get(mPosition));
+        mChapterTitle.setText(mTitleArray.get(chapter-1));
+        mChapterContent.setText(mContentArray.get(chapter-1));
 
+        mBookNEW.setReadingChapter(chapter);
         mScrollView.post(new Runnable() {
             @Override
             public void run() {
@@ -149,14 +151,15 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        int position = -1;
-        if (mReadStyle == mBookNEW.STYLE_ONLINE) position = mPosition;
+        int position = mBookNEW.getReadingChapter();
+//        if (mReadStyle == mBookNEW.STYLE_ONLINE)
+//            position = mBookNEW.getReadingChapter() -1;
         switch (v.getId()) {
             case R.id.viewer_prev_btn:
-                position = mPosition - 1;
+                position --;
                 break;
             case R.id.viewer_next_btn:
-                position = mPosition + 1;
+                position ++;
                 break;
             case R.id.viewer_chapterContent_tv:
                 Log.i("<<", "viewer_chapterContent_tv > onclick");
@@ -315,8 +318,6 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 mScrollView.scrollTo(0, y);
             }
         });
-
-        mPosition = chapter.getChapterIndex();
     }
 
     public void setContentStyle() {
@@ -352,8 +353,9 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
         if (mReadStyle == Book9.STYLE_ONLINE)
             mLocalDatabase.insertNondownloadedBook(mBookNEW.getBookId(), mBookNEW.getBookName(), mBookNEW.getAuthorName(), mBookNEW.getCoverUrl());
-        mLocalDatabase.setReadingPositon(mBookNEW.getBookId(), mPosition, (int) mScrollView.getScrollY());
+        mLocalDatabase.setReadingPositon(mBookNEW.getBookId(), mBookNEW.getReadingChapter(), (int) mScrollView.getScrollY());
         ((MyApplication) getApplication()).setmLocalDatabase(mLocalDatabase);
+        Log.e("QWERTY", "mBookNEW.getBookId(): " + mBookNEW.getBookId() + "; mBookNEW.getReadingChapter(): " + mBookNEW.getReadingChapter());
         super.onStop();
     }
 }

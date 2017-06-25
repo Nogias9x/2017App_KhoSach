@@ -137,8 +137,9 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(mContext, ViewerActivity.class);
+        intent.putExtra("BookID", mStoryID);
         intent.putExtra("BookTitle", mStoryTitle);
-        intent.putExtra("ChapterID", position);
+        intent.putExtra("ChapterID", position + 1);
         intent.putExtra("ReadingY", 0);
         intent.putExtra("Style", new Book9().STYLE_OFFLINE);
 
