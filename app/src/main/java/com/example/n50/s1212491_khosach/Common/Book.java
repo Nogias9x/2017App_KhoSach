@@ -3,7 +3,12 @@ package com.example.n50.s1212491_khosach.Common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book  implements Serializable {
+    public static final int STYLE_ONLINE = 0;
+    public static final int STYLE_OFFLINE = 1;
+
 
     @SerializedName("mBookId")
     @Expose

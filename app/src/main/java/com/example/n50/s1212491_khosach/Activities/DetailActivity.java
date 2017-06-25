@@ -4,7 +4,9 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
@@ -33,7 +36,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private ImageView shareIv;
     private RatingBar ratingRb;
 
-    private Book9 mBook9;
+    private Book mBookNEW;
     private DBHelper mLocalDatabase;
     private boolean mIsMine = false;
     private LongOperation mLongOperation;
@@ -71,17 +74,26 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
 
         Intent callerIntent = getIntent();
-        mBook9 = (Book9) callerIntent.getSerializableExtra("selectedBook");
+        mBookNEW = (Book) callerIntent.getSerializableExtra("selectedBook");
 
-        if (mBook9 != null) {
-            coverIv.setImageResource(R.drawable.loading);
-            coverIv.setTag(mBook9.getCoverUrl());
-//            Utils.loadImageFromUrl(this, coverIv, mBook9.getCoverUrl());
-            titleTv.setText(mBook9.getTitle());
-            authorTv.setText(mBook9.getAuthor());
-            introTv.setText(mBook9.getDescription());
-            viewTv.setText(getString(R.string.book_view) + mBook9.getView());
-            chapterTv.setText(mBook9.getChapter());
+        if (mBookNEW != null) {
+            try{
+                coverIv.setImageBitmap(Utils.decodeStringToImage(mBookNEW.getCoverUrl()));
+            } catch(Exception ex){
+                Log.e("QWERTY", ex.toString());
+                coverIv.setImageResource(R.drawable.noimage);
+            }
+            coverIv.setTag(mBookNEW.getCoverUrl());
+            titleTv.setText(mBookNEW.getBookName());
+            authorTv.setText(mBookNEW.getAuthorName());
+            if(mBookNEW.getIntroduction()==null){
+                introTv.setText(getString(R.string.book_no_description));
+
+            } else {
+                introTv.setText(mBookNEW.getIntroduction());
+            }
+            viewTv.setText(getString(R.string.book_view) + " " + mBookNEW.getViews());
+            chapterTv.setText(getString(R.string.book_chapter) + " " + mBookNEW.getChapterNumber());
             ratingRb.setStepSize((float) 0.5);
             ratingRb.setIsIndicator(false);
 
@@ -98,7 +110,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 case DialogInterface.BUTTON_POSITIVE:
                                     mCurrentRating = ratingRb.getRating();
                                     LongOperation longOperation = new LongOperation(DetailActivity.this);
-                                    longOperation.sendRatingRequestTask(mBook9.getId(), mCurrentRating);
+                                    longOperation.sendRatingRequestTask(mBookNEW.getBookId(), mCurrentRating);
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     ratingRb.setRating(mCurrentRating);
@@ -109,7 +121,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
                     //////////
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                    builder.setMessage("Bạn có muốn đánh giá truyện " + mBook9.getTitle() + " với " + ratingRb.getRating() + " sao không?")
+                    builder.setMessage("Bạn có muốn đánh giá truyện " + mBookNEW.getBookName() + " với " + ratingRb.getRating() + " sao không?")
                             .setPositiveButton("Có", dialogClickListener)
                             .setNegativeButton("Không", dialogClickListener).show();
                 }
@@ -117,7 +129,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         }
 ////
 
-        mIsMine = ((MyApplication) getApplication()).getmLocalDatabase().checkIfExistDownloadedBook(mBook9.getId());
+        mIsMine = ((MyApplication) getApplication()).getmLocalDatabase().checkIfExistDownloadedBook(mBookNEW.getBookId());
 
         changeBookStatus();
     }
@@ -139,7 +151,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.read_iv:
                 LongOperation longOperation = new LongOperation(DetailActivity.this);
-                longOperation.sendViewTask(mBook9.getId());
+                longOperation.sendViewTask(mBookNEW.getBookId());
 
                 mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
 
@@ -149,21 +161,21 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 Intent intent1 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent1.putExtra("BookTitle", mBook9.getTitle());
-                                intent1.putExtra("BookAuthor", mBook9.getAuthor());
-                                intent1.putExtra("BookCover", mBook9.getCoverUrl());
-                                intent1.putExtra("BookID", mBook9.getId());
-                                intent1.putExtra("ChapterID", mLocalDatabase.getReadingChapter(mBook9.getId()));
-                                intent1.putExtra("ReadingY", mLocalDatabase.getReadingY(mBook9.getId()));
-                                intent1.putExtra("Style", mBook9.STYLE_ONLINE);
+                                intent1.putExtra("BookTitle", mBookNEW.getBookName());
+                                intent1.putExtra("BookAuthor", mBookNEW.getAuthorName());
+                                intent1.putExtra("BookCover", mBookNEW.getCoverUrl());
+                                intent1.putExtra("BookID", mBookNEW.getBookId());
+                                intent1.putExtra("ChapterID", mLocalDatabase.getReadingChapter(mBookNEW.getBookId()));
+                                intent1.putExtra("ReadingY", mLocalDatabase.getReadingY(mBookNEW.getBookId()));
+                                intent1.putExtra("Style", mBookNEW.STYLE_ONLINE);
                                 startActivity(intent1);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 Intent intent2 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent2.putExtra("BookTitle", mBook9.getTitle());
-                                intent2.putExtra("BookID", mBook9.getId());
+                                intent2.putExtra("BookTitle", mBookNEW.getBookName());
+                                intent2.putExtra("BookID", mBookNEW.getBookId());
                                 intent2.putExtra("ChapterID", 0);
-                                intent2.putExtra("Style", mBook9.STYLE_ONLINE);
+                                intent2.putExtra("Style", mBookNEW.STYLE_ONLINE);
                                 startActivity(intent2);
                                 break;
                         }
@@ -193,7 +205,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private void startShareActivity() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, mBook9.getTitle() + getString(R.string.share_content));
+        intent.putExtra(Intent.EXTRA_TEXT, mBookNEW.getBookName() + getString(R.string.share_content));
         intent.setType("text/plain");
         startActivity(Intent.createChooser(intent, getString(R.string.share_title)));
     }
@@ -201,13 +213,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void addToBookshelf() {
         DBHelper db = ((MyApplication) this.getApplication()).getmLocalDatabase();
-        if (db.checkIfExistDownloadedBook(mBook9.getId()) == true) {
-            Toast.makeText(this, mBook9.getTitle().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
+        if (db.checkIfExistDownloadedBook(mBookNEW.getBookId()) == true) {
+            Toast.makeText(this, mBookNEW.getBookName().toUpperCase() + " đã tồn tại", Toast.LENGTH_SHORT).show();
         } else {
-            db.insertDownloadedBook(mBook9.getId(), mBook9.getTitle(), mBook9.getAuthor(), mBook9.getCoverUrl());
+            db.insertDownloadedBook(mBookNEW.getBookId(), mBookNEW.getBookName(), mBookNEW.getAuthorName(), mBookNEW.getCoverUrl());
 
             //tải và thêm các chapter của book xuống local database
-            mLongOperation.getAllChaptersTask(mBook9.getId());
+            mLongOperation.getAllChaptersTask(mBookNEW.getBookId());
             ((MyApplication) this.getApplication()).setmLocalDatabase(db);
             mIsMine= true;
             changeBookStatus();
@@ -216,11 +228,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void removeBookFromBookshelf() {
         DBHelper db = ((MyApplication) getApplication()).getmLocalDatabase();
-        db.deleteBookAndItsChapter(mBook9.getId());
+        db.deleteBookAndItsChapter(mBookNEW.getBookId());
         ((MyApplication) getApplication()).setmLocalDatabase(db);
         mIsMine = false;
         changeBookStatus();
-        Toast.makeText(this, mBook9.getTitle().toUpperCase() + " đã được xoá khỏi TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, mBookNEW.getBookName().toUpperCase() + " đã được xoá khỏi TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
     }
 
     public void changeBookStatus() {

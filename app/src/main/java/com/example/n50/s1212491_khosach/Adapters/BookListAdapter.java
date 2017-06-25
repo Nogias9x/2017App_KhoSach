@@ -70,10 +70,7 @@ public class BookListAdapter extends BaseAdapter {
         Book book = mListNEW.get(position);
         if (book != null) {
             try{
-                String encodedDataString = book.getCoverUrl();
-                encodedDataString = encodedDataString.replace("data:image/jpeg;base64,","");
-                byte[] imageAsBytes = Base64.decode(encodedDataString.getBytes(), 0);
-                viewHolder.coverIv.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+                viewHolder.coverIv.setImageBitmap(Utils.decodeStringToImage(book.getCoverUrl()));
             } catch(Exception ex){
                 // default image is "R.drawable.noimage"
                 Log.e("QWERTY", ex.toString());
