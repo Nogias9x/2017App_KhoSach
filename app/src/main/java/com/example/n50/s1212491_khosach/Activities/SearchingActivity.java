@@ -38,13 +38,13 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
 
-//        mLongOperation = new LongOperation(this);//TO UNCOMMENT
+        mLongOperation = new LongOperation(this);
         mSearchKey_et = (EditText) findViewById(R.id.search_title_tv);
         mSearchButton_ib = (ImageButton) findViewById(R.id.search_search_btn);
         mResultList_lv = (ListView) findViewById(R.id.search_result_list_lv);
         mResultList_lv.setEmptyView(findViewById(R.id.empty));
         mResultList_lv.setOnItemClickListener(this);
-
+        mResultList_lv.setOnItemLongClickListener(this);
         mSearchButton_ib.setOnClickListener(this);
     }
 
@@ -58,8 +58,10 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
                     Toast.makeText(this, "Vui lòng nhập từ khoá", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                mLongOperation.searchBookTask(searchKey, mResultList_lv, this);//TO UNCOMMENT
-                mLongOperation = new LongOperation(this);
+                if (!this.isOnline()) {
+                    Toast.makeText(this, R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mLongOperation.searchBookNEW(searchKey, mResultList_lv, this);
 
 
@@ -101,7 +103,8 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
                             db.insertDownloadedBook(mBookList.get(position).getBookId(), mBookList.get(position).getBookName(), mBookList.get(position).getAuthorName(), mBookList.get(position).getCoverUrl());
 
                             //tải và thêm các chapter của book xuống local database
-                            mLongOperation.getAllChaptersTask(mBookList.get(position).getBookId());
+                            mLongOperation.getAllChapterOfBooksNEW(mBookList.get(position).getBookId());
+
                             ((MyApplication) getApplication()).setmLocalDatabase(db);
                         }
                         break;

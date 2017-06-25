@@ -221,7 +221,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
             //tải và thêm các chapter của book xuống local database
             mLongOperation.getAllChapterOfBooksNEW(mBookNEW.getBookId());
-//            mLongOperation.getAllChaptersTask(mBookNEW.getBookId());
 
             ((MyApplication) this.getApplication()).setmLocalDatabase(db);
             mIsMine= true;

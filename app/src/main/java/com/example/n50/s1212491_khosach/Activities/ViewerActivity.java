@@ -102,7 +102,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             mPosition = callerIntent.getIntExtra("position", 0);
             mTitleArray = callerIntent.getStringArrayListExtra("titleArray");
             mContentArray = callerIntent.getStringArrayListExtra("contentArray");
-            mBookNEW.setReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
+            mBookNEW.setReadingChapter(callerIntent.getIntExtra("ChapterID", 1));//
             mBookNEW.setReadingY(callerIntent.getIntExtra("ReadingY", 0));//
 
             changeChapter(mBookNEW.getReadingChapter(), mBookNEW.getReadingY());
@@ -122,9 +122,9 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void changeChapter(int chapter, final int y) {
-        this.mPosition = chapter;
+        this.mPosition = chapter - 1;
 
-        if (mPosition == 0) {
+        if (mPosition == -1) {
             Toast.makeText(this, "Chương được chọn không tồn tại!!!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -181,7 +181,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 Toast.makeText(this, "Không thể chuyển chương", Toast.LENGTH_SHORT).show();
                 return;
             }
-            changeChapter(position, 0);
+            changeChapter(position, 1);
             return;
         } else if (mReadStyle == mBookNEW.STYLE_ONLINE) {
             if (position < 0) {

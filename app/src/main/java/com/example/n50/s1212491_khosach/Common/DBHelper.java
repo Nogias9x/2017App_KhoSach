@@ -61,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("Title", Title);
             contentValues.put("Author", Author);
             contentValues.put("Cover", Cover);
-            contentValues.put("ReadingChapter", 0);
+            contentValues.put("ReadingChapter", 1);
             contentValues.put("ReadingY", 0);
             contentValues.put("Downloaded", 1);
             db.insertWithOnConflict("Book", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
