@@ -162,7 +162,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                             case DialogInterface.BUTTON_POSITIVE: // đọc tiếp vị trí dở dang
                                 Toast.makeText(DetailActivity.this, "1111", Toast.LENGTH_LONG).show();
                                 Intent intent1 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent1.putExtra(Book.KEY_BOOK_ID, mBookNEW.getBookName());
+                                intent1.putExtra(Book.KEY_BOOK_NAME, mBookNEW.getBookName());
                                 intent1.putExtra("BookAuthor", mBookNEW.getAuthorName());
                                 intent1.putExtra("BookCover", mBookNEW.getCoverUrl());
                                 intent1.putExtra("BookID", mBookNEW.getBookId());
@@ -175,7 +175,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 Toast.makeText(DetailActivity.this, "2222", Toast.LENGTH_LONG).show();
 
                                 Intent intent2 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent2.putExtra(Book.KEY_BOOK_ID, mBookNEW.getBookName());
+                                intent2.putExtra(Book.KEY_BOOK_NAME, mBookNEW.getBookName());
                                 intent2.putExtra("BookID", mBookNEW.getBookId());
                                 intent2.putExtra("ChapterID", 0);
                                 intent2.putExtra("Style", mBookNEW.STYLE_ONLINE);

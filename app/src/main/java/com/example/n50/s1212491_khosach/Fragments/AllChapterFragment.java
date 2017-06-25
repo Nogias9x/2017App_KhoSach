@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Activities.ViewerActivity;
 import com.example.n50.s1212491_khosach.Adapters.ChapterListAdapter;
+import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.Chapter9;
@@ -40,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllChapterFragment extends Fragment implements AdapterView.OnItemClickListener {
-    private List<Chapter9> mChapter9s = null;
     private List<Chapter> mChaptersNEW = null;
     private ListView mListView;
     private MainActivity mContext;
@@ -70,7 +70,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         Intent intent = new Intent(mContext, ViewerActivity.class);
-                        intent.putExtra("BookTitle", mStoryTitle);
+                        intent.putExtra(Book.KEY_BOOK_NAME, mStoryTitle);
                         intent.putExtra("BookID", mStoryID);
                         intent.putExtra("ChapterID", mLocalDatabase.getReadingChapter(mStoryID));
                         intent.putExtra("ReadingY", mLocalDatabase.getReadingY(mStoryID));
@@ -81,9 +81,9 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
                         ArrayList<String> titleArray = new ArrayList<String>();
                         ArrayList<String> contentArray = new ArrayList<String>();
 
-                        for (int i = 0; i < mChapter9s.size(); i++) {
-                            titleArray.add(mChapter9s.get(i).getmTitle());
-                            contentArray.add(mChapter9s.get(i).getmContent());
+                        for (int i = 0; i < mChaptersNEW.size(); i++) {
+                            titleArray.add(mChaptersNEW.get(i).getChapterName());
+                            contentArray.add(mChaptersNEW.get(i).getContent());
                         }
 
                         intent.putStringArrayListExtra("titleArray", titleArray);
@@ -136,79 +136,6 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
         }.execute();
     }
 
-    private List<Chapter9> getAllChapters(String path) {
-        Context mContext;
-        String Content = null;
-        String Error = null;
-        ProgressDialog Dialog;
-        String data = "";
-        List<Chapter9> mChapter9List = null;
-
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(path);//"http://wsthichtruyen-1212491.rhcloud.com/?function=0");
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            // Read Server Response
-            while ((line = reader.readLine()) != null) {
-                // Append server response in string
-                sb.append(line + " ");
-            }
-
-            // Append Server Response To Content String
-            Content = sb.toString();
-        } catch (Exception ex) {
-            Error = ex.getMessage();
-        } finally {
-            try {
-                reader.close();
-            } catch (Exception ex) {
-                Log.i("<<NOGIAS>>", ex.toString());
-            }
-        }
-
-        if (Error != null) {
-            Log.i("<<NOGIAS>>", Error);
-        } else {
-            /****************** Start Parse Response JSON Data *************/
-            JSONArray jsonArray;
-            try {
-                /****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                Content = Html.fromHtml(Content).toString();
-                jsonArray = new JSONArray(Content);//
-//                /*********** Process each JSON Node ************///
-                int lengthJsonArr = jsonArray.length();
-                mChapter9List = new ArrayList<Chapter9>(lengthJsonArr);
-                Log.i("<<NOGIAS>>", "lengthJsonArr: " + lengthJsonArr);//
-                for (int i = 0; i < lengthJsonArr; i++) {
-//                    /****** Get Object for each JSON node.***********/
-                    JSONObject jsonChildNode = jsonArray.getJSONObject(i);
-//
-                    Chapter9 chapter9 = new Chapter9();
-                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter9.KEY_STORYID));
-                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter9.KEY_CHAPTERID));
-                    chapter9.setmTitle(jsonChildNode.optString(Chapter9.KEY_TITLE).toString());
-                    chapter9.setmContent(jsonChildNode.optString(Chapter9.KEY_CONTENT).toString());
-
-                    mChapter9List.add(chapter9);
-                }
-            } catch (JSONException e) {
-                Log.i("<<NOGIAS>>", e.toString());
-            }
-        }
-        return mChapter9List;
-    }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(mContext, ViewerActivity.class);
@@ -220,9 +147,9 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
         ArrayList<String> titleArray = new ArrayList<String>();
         ArrayList<String> contentArray = new ArrayList<String>();
 
-        for (int i = 0; i < mChapter9s.size(); i++) {
-            titleArray.add(mChapter9s.get(i).getmTitle());
-            contentArray.add(mChapter9s.get(i).getmContent());
+        for (int i = 0; i < mChaptersNEW.size(); i++) {
+            titleArray.add(mChaptersNEW.get(i).getChapterName());
+            contentArray.add(mChaptersNEW.get(i).getContent());
         }
 
         intent.putStringArrayListExtra("titleArray", titleArray);

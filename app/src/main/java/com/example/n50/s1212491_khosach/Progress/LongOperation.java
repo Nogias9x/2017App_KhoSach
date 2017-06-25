@@ -142,10 +142,10 @@ public class LongOperation {
                     JSONObject jsonChildNode = jsonArray.getJSONObject(i);
 //
                     Chapter9 chapter9 = new Chapter9();
-                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter9.KEY_STORYID));
-                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter9.KEY_CHAPTERID));
-                    chapter9.setmTitle(jsonChildNode.optString(Chapter9.KEY_TITLE).toString());
-                    chapter9.setmContent(jsonChildNode.optString(Chapter9.KEY_CONTENT).toString());
+                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter.KEY_STORYID));
+                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter.KEY_CHAPTERID));
+                    chapter9.setmTitle(jsonChildNode.optString(Chapter.KEY_TITLE).toString());
+                    chapter9.setmContent(jsonChildNode.optString(Chapter.KEY_CONTENT).toString());
 
                     mChapter9List.add(chapter9);
                 }

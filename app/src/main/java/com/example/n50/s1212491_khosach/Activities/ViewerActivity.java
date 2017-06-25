@@ -88,7 +88,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
         mChapter9 = new Chapter9();
         Intent callerIntent = getIntent();
-        mBookNEW.setBookName(callerIntent.getStringExtra(Book.KEY_BOOK_ID));
+        mBookNEW.setBookName(callerIntent.getStringExtra(Book.KEY_BOOK_NAME));
         mReadStyle = callerIntent.getIntExtra("Style", mBookNEW.STYLE_ONLINE);
 
         if (mReadStyle == mBookNEW.STYLE_OFFLINE) {
@@ -335,10 +335,10 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 //                    /****** Get Object for each JSON node.***********/
                     JSONObject jsonChildNode = jsonArray.getJSONObject(i);
                     chapter9 = new Chapter9();
-                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter9.KEY_STORYID));
-                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter9.KEY_CHAPTERID));
-                    chapter9.setmTitle(jsonChildNode.optString(Chapter9.KEY_TITLE).toString());
-                    chapter9.setmContent(jsonChildNode.optString(Chapter9.KEY_CONTENT).toString());
+                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter.KEY_STORYID));
+                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter.KEY_CHAPTERID));
+                    chapter9.setmTitle(jsonChildNode.optString(Chapter.KEY_TITLE).toString());
+                    chapter9.setmContent(jsonChildNode.optString(Chapter.KEY_CONTENT).toString());
                     Log.i("<<NOGIAS>>", "Log2");
                     return chapter9;
                 }

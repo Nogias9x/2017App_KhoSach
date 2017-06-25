@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.n50.s1212491_khosach.Common.Chapter;
-import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.R;
 
 import java.util.List;

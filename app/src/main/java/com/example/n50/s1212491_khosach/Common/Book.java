@@ -10,6 +10,7 @@ public class Book  implements Serializable {
     public static final int STYLE_OFFLINE = 1;
 
     public static final String KEY_BOOK_ID = "mBookId";
+    public static final String KEY_BOOK_NAME = "mBookName";
 
     private int mReadingChapter;
     private int mReadingY;

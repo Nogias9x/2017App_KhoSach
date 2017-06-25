@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "KhoTruyen.db";
 
-    public static final String BOOK_TABLE_NAME = "Book9";
+    public static final String BOOK_TABLE_NAME = "Book";
     public static final String KEY_B_ID = "StoryID";
     public static final String KEY_B_COVER = "Cover";
     public static final String KEY_B_AUTHOR = "Author";

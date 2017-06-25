@@ -8,6 +8,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Chapter {
+    public static final String KEY = "chapter";
+    public static final String TABLE_NAME = "Chapter9";
+    public static final String KEY_STORYID = "StoryID";
+    public static final String KEY_CHAPTERID = "ChapterID";
+    public static final String KEY_TITLE = "ChapterTitle";
+    public static final String KEY_CONTENT = "ChapterContent";
+
     @SerializedName("mChapterId")
     @Expose
     public int mChapterId;
