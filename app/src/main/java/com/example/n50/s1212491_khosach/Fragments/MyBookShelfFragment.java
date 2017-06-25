@@ -87,7 +87,7 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Toast.makeText(mContext, "show chapters list", Toast.LENGTH_LONG).show();
         LongOperation longOperation = new LongOperation(mContext);
-        longOperation.sendViewTask(mBooksNEW.get(position).getBookId());
+        longOperation.sendViewNEW(mBooksNEW.get(position).getBookId());
 
         AllChapterFragment fragment = null;
         fragment = new AllChapterFragment();

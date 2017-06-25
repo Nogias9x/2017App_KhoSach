@@ -42,51 +42,10 @@ public class LongOperation {
         this.mContext = mContext;
     }
 
-    ////gửi request rating 1 truyện về server
-    public void sendViewTask(final int storyID) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                sendView(storyID);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-            }
-        }.execute();
-    }
-
-    private void sendView(int storyID) {
-        String data = "";
-        BufferedReader reader = null;
-        String path = "http://wsthichtruyen-1212491.rhcloud.com/?function=4&storyID=" + storyID;
-        Log.i("<<NOGIAS>>", "sendView: " + path);
-        try {
-            URL url = new URL(path);
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } catch (Exception e) {
-            Log.e("<<ERROR>>", e.toString());
-        }
-    }
-
-    // MY DOING /////////////////////////////////////////////////////////>>>>>>>
     //tải tất cả các truyện từ server
     public void getAllBooksListNEW(final AllBookFragment fragment, final ListView listView){
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
-//        Dialog.setCancelable(false);
         Dialog.show();
 
         MyWebService mMyWebService;
@@ -244,6 +203,21 @@ public class LongOperation {
             }
         });
     }
-    // MY DOING /////////////////////////////////////////////////////////<<<<<<
+
+    //đếm view truyện
+    public void sendViewNEW(int bookId){
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.sendView(bookId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.e("QWERTY", response.body());
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

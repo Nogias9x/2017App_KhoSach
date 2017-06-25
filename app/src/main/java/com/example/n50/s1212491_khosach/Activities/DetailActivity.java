@@ -151,7 +151,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.read_iv:
                 LongOperation longOperation = new LongOperation(DetailActivity.this);
-                longOperation.sendViewTask(mBookNEW.getBookId());
+                longOperation.sendViewNEW(mBookNEW.getBookId());
 
                 mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
 

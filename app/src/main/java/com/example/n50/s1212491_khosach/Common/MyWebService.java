@@ -24,5 +24,8 @@ public interface MyWebService {
     Call<List<Book>> searchBook(@Query("bookName") String bookName);
 
     @GET("/rateBook")
-    Call<Boolean> rateBook(@Query("bookId") int bookName, @Query("point") float point);
+    Call<Boolean> rateBook(@Query("bookId") int bookId, @Query("point") float point);
+
+    @GET("/countView")
+    Call<String> sendView(@Query("bookId") int bookId);
 }
