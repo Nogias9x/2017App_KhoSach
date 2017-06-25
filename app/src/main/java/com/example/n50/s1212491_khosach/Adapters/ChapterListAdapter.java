@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.n50.s1212491_khosach.Common.Chapter;
+import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.R;
 
 import java.util.List;
 
 public class ChapterListAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Chapter> mList;
+    private List<Chapter9> mList;
 
-    public ChapterListAdapter(Context context, List<Chapter> list) {
+    public ChapterListAdapter(Context context, List<Chapter9> list) {
         mContext = context;
         mList = list;
     }
@@ -52,10 +52,10 @@ public class ChapterListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Chapter chapter = mList.get(position);
-        if (chapter != null) {
-            viewHolder.titleTv.setText(chapter.getmTitle());
-            viewHolder.hintTv.setText(chapter.getHint());
+        Chapter9 chapter9 = mList.get(position);
+        if (chapter9 != null) {
+            viewHolder.titleTv.setText(chapter9.getmTitle());
+            viewHolder.hintTv.setText(chapter9.getHint());
         }
 
         return convertView;

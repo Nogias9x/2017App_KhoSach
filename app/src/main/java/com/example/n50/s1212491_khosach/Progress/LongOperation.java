@@ -16,6 +16,7 @@ import com.example.n50.s1212491_khosach.Common.ApiUtils;
 import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
+import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Common.MyWebService;
@@ -48,7 +49,7 @@ public class LongOperation {
 
     //tải tất cả các chương của 1 truyện từ server
     public void getAllChaptersTask(final int storyID) {
-        new AsyncTask<Void, Void, List<Chapter>>() {
+        new AsyncTask<Void, Void, List<Chapter9>>() {
             @Override
             protected void onPreExecute() {
                 Dialog = new ProgressDialog(mContext);
@@ -57,16 +58,16 @@ public class LongOperation {
             }
 
             @Override
-            protected List<Chapter> doInBackground(Void... voids) {
+            protected List<Chapter9> doInBackground(Void... voids) {
                 return getAllChapters("http://wsthichtruyen-1212491.rhcloud.com/?function=1&StoryID=" + storyID);
             }
 
             @Override
-            protected void onPostExecute(List<Chapter> list) {
+            protected void onPostExecute(List<Chapter9> list) {
                 DBHelper db = ((MyApplication) mContext.getApplication()).getmLocalDatabase();
                 if (list != null) {
                     for (int i = 0; i < list.size(); i++) {
-                        Chapter c = list.get(i);
+                        Chapter9 c = list.get(i);
                         db.insertChapter(c.getmStoryId(), c.getmChapterId(), c.getmTitle(), c.getmContent());
                     }
                 }
@@ -77,14 +78,14 @@ public class LongOperation {
         }.execute();
     }
 
-    private List<Chapter> getAllChapters(String path) {
+    private List<Chapter9> getAllChapters(String path) {
         Log.i("<<NOGIAS>>", "getAllChapters S");
         Context mContext;
         String Content = null;
         String Error = null;
         ProgressDialog Dialog;
         String data = "";
-        List<Chapter> mChapterList = null;
+        List<Chapter9> mChapter9List = null;
 
         BufferedReader reader = null;
         try {
@@ -134,28 +135,28 @@ public class LongOperation {
                 jsonArray = new JSONArray(Content);//
 //                /*********** Process each JSON Node ************///
                 int lengthJsonArr = jsonArray.length();
-                mChapterList = new ArrayList<Chapter>(lengthJsonArr);
+                mChapter9List = new ArrayList<Chapter9>(lengthJsonArr);
                 Log.i("<<NOGIAS>>", "lengthJsonArr: " + lengthJsonArr);//
                 for (int i = 0; i < lengthJsonArr; i++) {
 //                    /****** Get Object for each JSON node.***********/
                     JSONObject jsonChildNode = jsonArray.getJSONObject(i);
 //
-                    Chapter chapter = new Chapter();
-                    chapter.setmStoryId(jsonChildNode.optInt(Chapter.KEY_STORYID));
-                    chapter.setmChapterId(jsonChildNode.optInt(Chapter.KEY_CHAPTERID));
-                    chapter.setmTitle(jsonChildNode.optString(Chapter.KEY_TITLE).toString());
-                    chapter.setmContent(jsonChildNode.optString(Chapter.KEY_CONTENT).toString());
+                    Chapter9 chapter9 = new Chapter9();
+                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter9.KEY_STORYID));
+                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter9.KEY_CHAPTERID));
+                    chapter9.setmTitle(jsonChildNode.optString(Chapter9.KEY_TITLE).toString());
+                    chapter9.setmContent(jsonChildNode.optString(Chapter9.KEY_CONTENT).toString());
 
-                    mChapterList.add(chapter);
+                    mChapter9List.add(chapter9);
                 }
             } catch (JSONException e) {
                 Log.i("<<NOGIAS>>", e.toString());
             }
         }
         Log.i("<<NOGIAS>>", "getAllChapters E");
-        if (mChapterList == null) Log.i("<<NOGIAS>>", "mChapterList null");
-        if (mChapterList != null) Log.i("<<NOGIAS>>", "mChapterList NOT null");
-        return mChapterList;
+        if (mChapter9List == null) Log.i("<<NOGIAS>>", "mChapter9List null");
+        if (mChapter9List != null) Log.i("<<NOGIAS>>", "mChapter9List NOT null");
+        return mChapter9List;
     }
 
 //    //tải tất cả các truyện từ server
@@ -466,7 +467,7 @@ public class LongOperation {
     public void getAllBooksListNEW(final AllBookFragment fragment, final ListView listView){
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
-        Dialog.setCancelable(false);
+//        Dialog.setCancelable(false);
         Dialog.show();
 
         MyWebService mMyWebService;
@@ -504,6 +505,8 @@ public class LongOperation {
             }
         });
     }
+
+
     // MY DOING /////////////////////////////////////////////////////////<<<<<<
 
 }

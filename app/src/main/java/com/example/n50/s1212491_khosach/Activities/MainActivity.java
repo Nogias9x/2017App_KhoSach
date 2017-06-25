@@ -42,12 +42,12 @@ public class MainActivity extends BaseActivity {
                     fragment = mFragmentList.get(tab.getPosition());
                 }
                 if (fragment == null) {
-                    if (tab.getPosition() == 0) {
+                    if (tab.getPosition() == 1) {
                         fragment = new AllBookFragment();
-                        mFragmentList.add(0, fragment);
-                    } else if (tab.getPosition() == 1) {
-                        fragment = new MyBookShelfFragment();
                         mFragmentList.add(1, fragment);
+                    } else if (tab.getPosition() == 0) {
+                        fragment = new MyBookShelfFragment();
+                        mFragmentList.add(0, fragment);
                     }
                 }
                 getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
@@ -62,8 +62,8 @@ public class MainActivity extends BaseActivity {
 
         mTab1 = mActionBar.newTab().setText(getString(R.string.tab_1)).setTabListener(tabListener);
         mTab2 = mActionBar.newTab().setText(getString(R.string.tab_2)).setTabListener(tabListener);
-        mActionBar.addTab(mTab1);
         mActionBar.addTab(mTab2);
+        mActionBar.addTab(mTab1);
 
         initLocalDatabase();
     }

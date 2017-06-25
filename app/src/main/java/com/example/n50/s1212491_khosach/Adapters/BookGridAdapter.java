@@ -2,6 +2,7 @@ package com.example.n50.s1212491_khosach.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Utils;
 import com.example.n50.s1212491_khosach.R;
@@ -21,9 +23,9 @@ import java.util.List;
 
 public class BookGridAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Book9> mList;
+    private List<Book> mList;
 
-    public BookGridAdapter(Context context, List<Book9> list) {
+    public BookGridAdapter(Context context, List<Book> list) {
         mContext = context;
         mList = list;
     }
@@ -58,11 +60,18 @@ public class BookGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Book9 book9 = mList.get(position);
-        if (book9 != null) {
+        Book book = mList.get(position);
+        if (book != null) {
+            try{
+                viewHolder.coverIv.setImageBitmap(Utils.decodeStringToImage(book.getCoverUrl()));
+            } catch(Exception ex){
+                // default image is "R.drawable.noimage"
+                Log.e("QWERTY", ex.toString());
+                viewHolder.coverIv.setImageResource(R.drawable.noimage);
+            }
             //Utils.downloadImage(viewHolder.coverIv, book9.getCoverUrl());
 //            Utils.loadImageFromUrl(mContext, viewHolder.coverIv, book9.getCoverUrl());
-            viewHolder.titleTv.setText(book9.getTitle());
+            viewHolder.titleTv.setText(book.getBookName());
         }
 
         return convertView;

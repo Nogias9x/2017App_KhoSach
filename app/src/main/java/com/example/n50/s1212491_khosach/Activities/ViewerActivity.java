@@ -17,8 +17,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
+import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.R;
@@ -46,8 +48,9 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     private ArrayList<String> mContentArray = new ArrayList<String>();
     private int mPosition;
     private int mReadStyle;
-    private Book9 mBook9;
-    private Chapter mChapter;
+//    private Book9 mBook9;
+    private Book mBookNEW;
+    private Chapter9 mChapter9;
     private ProgressDialog mDialog;
     private DBHelper mLocalDatabase;
 
@@ -61,7 +64,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_viewer);
 
         mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
-        mBook9 = new Book9();
+        mBookNEW = new Book();
 
         getActionBar().setDisplayShowTitleEnabled(true);
         mScrollView = (ScrollView) findViewById(R.id.viewer_scrollView);
@@ -83,31 +86,31 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
         setContentStyle();
 
-        mChapter = new Chapter();
+        mChapter9 = new Chapter9();
         Intent callerIntent = getIntent();
-        mBook9.setTitle(callerIntent.getStringExtra("BookTitle"));
-        mReadStyle = callerIntent.getIntExtra("Style", mBook9.STYLE_ONLINE);
+        mBookNEW.setBookName(callerIntent.getStringExtra(Book.KEY_BOOK_ID));
+        mReadStyle = callerIntent.getIntExtra("Style", mBookNEW.STYLE_ONLINE);
 
-        if (mReadStyle == mBook9.STYLE_OFFLINE) {
+        if (mReadStyle == mBookNEW.STYLE_OFFLINE) {
             mPosition = callerIntent.getIntExtra("position", -1);
             mTitleArray = callerIntent.getStringArrayListExtra("titleArray");
             mContentArray = callerIntent.getStringArrayListExtra("contentArray");
-            mBook9.setmReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
-            mBook9.setmReadingY(callerIntent.getIntExtra("ReadingY", 0));//
+            mBookNEW.setReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
+            mBookNEW.setReadingY(callerIntent.getIntExtra("ReadingY", 0));//
 
-            changeChapter(mBook9.getmReadingChapter(), mBook9.getmReadingY());
+            changeChapter(mBookNEW.getReadingChapter(), mBookNEW.getReadingY());
 
-        } else if (mReadStyle == mBook9.STYLE_ONLINE) {
+        } else if (mReadStyle == mBookNEW.STYLE_ONLINE) {
             Intent callerIntent1 = getIntent();
-            mBook9.setId(callerIntent1.getIntExtra("BookID", -1));
-            mBook9.setCoverUrl(callerIntent.getStringExtra("BookCover"));
-            mBook9.setmReadingChapter(callerIntent1.getIntExtra("ChapterID", -1));
-            mBook9.setmReadingY(callerIntent1.getIntExtra("ReadingY", 0));
-            if (mBook9.getId() == -1 || mBook9.getmReadingChapter() == -1) {
+            mBookNEW.setBookId(callerIntent1.getIntExtra("BookID", -1));
+            mBookNEW.setCoverUrl(callerIntent.getStringExtra("BookCover"));
+            mBookNEW.setReadingChapter(callerIntent1.getIntExtra("ChapterID", -1));
+            mBookNEW.setReadingY(callerIntent1.getIntExtra("ReadingY", 0));
+            if (mBookNEW.getBookId() == -1 || mBookNEW.getReadingChapter() == -1) {
                 Toast.makeText(this, "Nội dung này không thể đọc!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            getChapterTask(mBook9.getId(), mBook9.getmReadingChapter(), mBook9.getmReadingY());
+            getChapterTask(mBookNEW.getBookId(), mBookNEW.getReadingChapter(), mBookNEW.getReadingY());
         }
     }
 
@@ -124,7 +127,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         if (mPosition == 0) mPrevChapter.setVisibility(View.INVISIBLE);
         if (mPosition >= mTitleArray.size() - 1) mNextChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBook9.getTitle() + " - " + mTitleArray.get(mPosition));
+        getActionBar().setTitle(mBookNEW.getBookName() + " - " + mTitleArray.get(mPosition));
 
         mChapterTitle.setText(mTitleArray.get(mPosition));
         mChapterContent.setText(mContentArray.get(mPosition));
@@ -140,7 +143,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int position = -1;
-        if (mReadStyle == mBook9.STYLE_ONLINE) position = mPosition;
+        if (mReadStyle == mBookNEW.STYLE_ONLINE) position = mPosition;
         switch (v.getId()) {
             case R.id.viewer_prev_btn:
                 position = mPosition - 1;
@@ -166,21 +169,21 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 return;
         }
 
-        if (mReadStyle == mBook9.STYLE_OFFLINE) {
+        if (mReadStyle == mBookNEW.STYLE_OFFLINE) {
             if (position < 0 || position >= mTitleArray.size()) {
                 Toast.makeText(this, "Không thể chuyển chương", Toast.LENGTH_SHORT).show();
                 return;
             }
             changeChapter(position, 0);
             return;
-        } else if (mReadStyle == mBook9.STYLE_ONLINE) {
+        } else if (mReadStyle == mBookNEW.STYLE_ONLINE) {
             if (position < 0) {
                 Toast.makeText(this, "Không thể chuyển chương", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mBook9.setmReadingChapter(position);
-            mChapter = null;
-            getChapterTask(mBook9.getId(), position, 0);
+            mBookNEW.setReadingChapter(position);
+            mChapter9 = null;
+            getChapterTask(mBookNEW.getBookId(), position, 0);
         }
     }
 
@@ -244,7 +247,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     private ViewerActivity mContext = (ViewerActivity) this;//REMOVE
 
     private void getChapterTask(int storyID, int chapterID, final int y) {
-        new AsyncTask<Integer, Void, Chapter>() {
+        new AsyncTask<Integer, Void, Chapter9>() {
             @Override
             protected void onPreExecute() {
                 mDialog = new ProgressDialog(mContext);
@@ -253,7 +256,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             }
 
             @Override
-            protected Chapter doInBackground(Integer... params) {
+            protected Chapter9 doInBackground(Integer... params) {
                 int storyID, chapterID;
                 storyID = params[0];
                 chapterID = params[1];
@@ -262,23 +265,23 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             }
 
             @Override
-            protected void onPostExecute(Chapter chapter) {
-                if (chapter != null) {
-                    mChapter = chapter;
+            protected void onPostExecute(Chapter9 chapter9) {
+                if (chapter9 != null) {
+                    mChapter9 = chapter9;
                 }
-                showOnlineChapter(mChapter, y);
+                showOnlineChapter(mChapter9, y);
                 mDialog.dismiss();
             }
         }.execute(storyID, chapterID);
     }
 
-    private Chapter getBookChapter(int storyID, int chapterID) {
+    private Chapter9 getBookChapter(int storyID, int chapterID) {
         Context mContext;
         String Content = null;
         String Error = null;
         ProgressDialog Dialog;
         String data = "";
-        Chapter chapter = null;
+        Chapter9 chapter9 = null;
         String path = "";
 
         BufferedReader reader = null;
@@ -331,35 +334,35 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 for (int i = 0; i < lengthJsonArr; i++) {
 //                    /****** Get Object for each JSON node.***********/
                     JSONObject jsonChildNode = jsonArray.getJSONObject(i);
-                    chapter = new Chapter();
-                    chapter.setmStoryId(jsonChildNode.optInt(Chapter.KEY_STORYID));
-                    chapter.setmChapterId(jsonChildNode.optInt(Chapter.KEY_CHAPTERID));
-                    chapter.setmTitle(jsonChildNode.optString(Chapter.KEY_TITLE).toString());
-                    chapter.setmContent(jsonChildNode.optString(Chapter.KEY_CONTENT).toString());
+                    chapter9 = new Chapter9();
+                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter9.KEY_STORYID));
+                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter9.KEY_CHAPTERID));
+                    chapter9.setmTitle(jsonChildNode.optString(Chapter9.KEY_TITLE).toString());
+                    chapter9.setmContent(jsonChildNode.optString(Chapter9.KEY_CONTENT).toString());
                     Log.i("<<NOGIAS>>", "Log2");
-                    return chapter;
+                    return chapter9;
                 }
             } catch (JSONException e) {
                 Log.i("<<NOGIAS>>", e.toString());
             }
         }
-        return chapter;
+        return chapter9;
     }
 
-    public void showOnlineChapter(Chapter c, final int y) {
-        if (mChapter == null) {
+    public void showOnlineChapter(Chapter9 c, final int y) {
+        if (mChapter9 == null) {
             Toast.makeText(this, "Chương được chọn không tồn tại!!!", Toast.LENGTH_LONG).show();
             return;
         }
 
         mPrevChapter.setVisibility(View.VISIBLE);
         mNextChapter.setVisibility(View.VISIBLE);
-        if (mChapter.getmChapterId() == 0) mPrevChapter.setVisibility(View.INVISIBLE);
+        if (mChapter9.getmChapterId() == 0) mPrevChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBook9.getTitle() + " - " + mChapter.getmTitle());
+        getActionBar().setTitle(mBookNEW.getBookName() + " - " + mChapter9.getmTitle());
 
-        mChapterTitle.setText(mChapter.getmTitle());
-        mChapterContent.setText(mChapter.getmContent());
+        mChapterTitle.setText(mChapter9.getmTitle());
+        mChapterContent.setText(mChapter9.getmContent());
 
         mScrollView.post(new Runnable() {
             @Override
@@ -403,8 +406,8 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
         mLocalDatabase = ((MyApplication) getApplication()).getmLocalDatabase();
 
         if (mReadStyle == Book9.STYLE_ONLINE)
-            mLocalDatabase.insertNondownloadedBook(mBook9.getId(), mBook9.getTitle(), mBook9.getAuthor(), mBook9.getCoverUrl());
-        mLocalDatabase.setReadingPositon(mBook9.getId(), mPosition, (int) mScrollView.getScrollY());
+            mLocalDatabase.insertNondownloadedBook(mBookNEW.getBookId(), mBookNEW.getBookName(), mBookNEW.getAuthorName(), mBookNEW.getCoverUrl());
+        mLocalDatabase.setReadingPositon(mBookNEW.getBookId(), mPosition, (int) mScrollView.getScrollY());
         ((MyApplication) getApplication()).setmLocalDatabase(mLocalDatabase);
         super.onStop();
     }

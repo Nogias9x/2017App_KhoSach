@@ -1,70 +1,37 @@
 package com.example.n50.s1212491_khosach.Common;
 
-import java.io.Serializable;
-
 /**
- * Created by TuNTC2 on 5/8/2016.
+ * Created by 12124 on 6/25/2017.
  */
-public class Chapter implements Serializable {
-    public static final String KEY = "chapter";
-    public static final String TABLE_NAME = "Chapter";
-    public static final String KEY_STORYID = "StoryID";
-    public static final String KEY_CHAPTERID = "ChapterID";
-    public static final String KEY_TITLE = "ChapterTitle";
-    public static final String KEY_CONTENT = "ChapterContent";
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private int mStoryId;
-    private int mChapterId;
-    private String mTitle;
-    private String mContent;
+public class Chapter {
+    @SerializedName("mChapterId")
+    @Expose
+    public int mChapterId;
+    @SerializedName("mBookId")
+    @Expose
+    public int mBookId;
+    @SerializedName("mChapterIndex")
+    @Expose
+    public int mChapterIndex;
+    @SerializedName("mChapterName")
+    @Expose
+    public String mChapterName;
+    @SerializedName("mContent")
+    @Expose
+    public String mContent;
 
-    public Chapter() {
-
-    }
-
-    public Chapter(int mStoryId, int mChapterId, String mTitle) {
-        this.mStoryId = mStoryId;
-        this.mChapterId = mChapterId;
-        this.mTitle = mTitle;
-    }
-
-    public void setmContent(String mContent) {
-        this.mContent = mContent;
-    }
-
-    public String getmTitle() {
-        return mTitle;
-    }
-
-    public void setmStoryId(int mStoryId) {
-        this.mStoryId = mStoryId;
-    }
-
-    public void setmChapterId(int mChapterId) {
-        this.mChapterId = mChapterId;
-    }
-
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
-    }
-
-    public int getmStoryId() {
-        return mStoryId;
-    }
-
-    public int getmChapterId() {
-        return mChapterId;
-    }
-
-    public String getmContent() {
-        return mContent;
-    }
-
-    public String getHint() {
-        if (mContent.length() < 300)
-            return mContent + "...";
-        return mContent.substring(0, 300) + "...";
-    }
+    public int getChapterId() { return mChapterId; }
+    public void setChapterId(int mChapterId) { this.mChapterId = mChapterId; }
+    public int getBookId() { return mBookId; }
+    public void setBookId(int mBookId) { this.mBookId = mBookId; }
+    public int getChapterIndex() { return mChapterIndex; }
+    public void setChapterIndex(int mChapterIndex) { this.mChapterIndex = mChapterIndex; }
+    public String getChapterName() { return mChapterName; }
+    public void setChapterName(String mChapterName) { this.mChapterName = mChapterName; }
+    public String getContent() { return mContent; }
+    public void setContent(String mContent) { this.mContent = mContent; }
 }
-

@@ -159,9 +159,10 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
+                            case DialogInterface.BUTTON_POSITIVE: // đọc tiếp vị trí dở dang
+                                Toast.makeText(DetailActivity.this, "1111", Toast.LENGTH_LONG).show();
                                 Intent intent1 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent1.putExtra("BookTitle", mBookNEW.getBookName());
+                                intent1.putExtra(Book.KEY_BOOK_ID, mBookNEW.getBookName());
                                 intent1.putExtra("BookAuthor", mBookNEW.getAuthorName());
                                 intent1.putExtra("BookCover", mBookNEW.getCoverUrl());
                                 intent1.putExtra("BookID", mBookNEW.getBookId());
@@ -170,9 +171,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 intent1.putExtra("Style", mBookNEW.STYLE_ONLINE);
                                 startActivity(intent1);
                                 break;
-                            case DialogInterface.BUTTON_NEGATIVE:
+                            case DialogInterface.BUTTON_NEGATIVE: // xem danh sách chương
+                                Toast.makeText(DetailActivity.this, "2222", Toast.LENGTH_LONG).show();
+
                                 Intent intent2 = new Intent(DetailActivity.this, ViewerActivity.class);
-                                intent2.putExtra("BookTitle", mBookNEW.getBookName());
+                                intent2.putExtra(Book.KEY_BOOK_ID, mBookNEW.getBookName());
                                 intent2.putExtra("BookID", mBookNEW.getBookId());
                                 intent2.putExtra("ChapterID", 0);
                                 intent2.putExtra("Style", mBookNEW.STYLE_ONLINE);

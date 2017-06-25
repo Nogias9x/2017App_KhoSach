@@ -9,6 +9,10 @@ public class Book  implements Serializable {
     public static final int STYLE_ONLINE = 0;
     public static final int STYLE_OFFLINE = 1;
 
+    public static final String KEY_BOOK_ID = "mBookId";
+
+    private int mReadingChapter;
+    private int mReadingY;
 
     @SerializedName("mBookId")
     @Expose
@@ -101,6 +105,18 @@ public class Book  implements Serializable {
     public int getChapterNumber() { return mChapterNumber; }
     public void setChapterNumber(int mChapterNumber) { this.mChapterNumber = mChapterNumber; }
 
+    public int getReadingChapter() {
+        return mReadingChapter;
+    }
+    public void setReadingChapter(int mReadingChapter) {
+        this.mReadingChapter = mReadingChapter;
+    }
 
+    public int getReadingY() {
+        return mReadingY;
+    }
+    public void setReadingY(int mReadingY) {
+        this.mReadingY = mReadingY;
+    }
 
 }
