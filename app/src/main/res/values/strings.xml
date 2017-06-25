@@ -9,6 +9,8 @@
     <string name="book_view">Lượt đọc: </string>
     <string name="book_chapter">Số chương: </string>
     <string name="book_no_description">Đang chờ cập nhật.</string>
+    <string name="book_server_error">Đã có lỗi xảy ra, vui lòng thử lại sau.</string>
+    <string name="book_not_exist_chapter">Chương được chọn không tồn tại!!!</string>
 
     <!-- Tab -->
     <string name="tab_1">TRUYỆN ĐANG CÓ</string>

@@ -17,12 +17,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.n50.s1212491_khosach.Common.ApiUtils;
 import com.example.n50.s1212491_khosach.Common.Book;
 import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
 import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
+import com.example.n50.s1212491_khosach.Common.MyWebService;
 import com.example.n50.s1212491_khosach.R;
 
 import org.json.JSONArray;
@@ -35,6 +37,10 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewerActivity extends BaseActivity implements View.OnClickListener {
 
@@ -50,7 +56,8 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     private int mReadStyle;
 //    private Book9 mBook9;
     private Book mBookNEW;
-    private Chapter9 mChapter9;
+//    private Chapter9 mChapter9;
+    private Chapter mChapterNEW;
     private ProgressDialog mDialog;
     private DBHelper mLocalDatabase;
 
@@ -86,13 +93,13 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
 
         setContentStyle();
 
-        mChapter9 = new Chapter9();
+        mChapterNEW = new Chapter();
         Intent callerIntent = getIntent();
         mBookNEW.setBookName(callerIntent.getStringExtra(Book.KEY_BOOK_NAME));
         mReadStyle = callerIntent.getIntExtra("Style", mBookNEW.STYLE_ONLINE);
 
         if (mReadStyle == mBookNEW.STYLE_OFFLINE) {
-            mPosition = callerIntent.getIntExtra("position", -1);
+            mPosition = callerIntent.getIntExtra("position", 0);
             mTitleArray = callerIntent.getStringArrayListExtra("titleArray");
             mContentArray = callerIntent.getStringArrayListExtra("contentArray");
             mBookNEW.setReadingChapter(callerIntent.getIntExtra("ChapterID", 0));//
@@ -104,30 +111,30 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             Intent callerIntent1 = getIntent();
             mBookNEW.setBookId(callerIntent1.getIntExtra("BookID", -1));
             mBookNEW.setCoverUrl(callerIntent.getStringExtra("BookCover"));
-            mBookNEW.setReadingChapter(callerIntent1.getIntExtra("ChapterID", -1));
+            mBookNEW.setReadingChapter(callerIntent1.getIntExtra("ChapterID", 1));
             mBookNEW.setReadingY(callerIntent1.getIntExtra("ReadingY", 0));
             if (mBookNEW.getBookId() == -1 || mBookNEW.getReadingChapter() == -1) {
                 Toast.makeText(this, "Nội dung này không thể đọc!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            getChapterTask(mBookNEW.getBookId(), mBookNEW.getReadingChapter(), mBookNEW.getReadingY());
+            getChapterOfBooksNEW(mBookNEW.getBookId(), mBookNEW.getReadingChapter(), mBookNEW.getReadingY());
         }
     }
 
     public void changeChapter(int chapter, final int y) {
         this.mPosition = chapter;
 
-        if (mPosition == -1) {
+        if (mPosition == 0) {
             Toast.makeText(this, "Chương được chọn không tồn tại!!!", Toast.LENGTH_LONG).show();
             return;
         }
 
         mPrevChapter.setVisibility(View.VISIBLE);
         mNextChapter.setVisibility(View.VISIBLE);
-        if (mPosition == 0) mPrevChapter.setVisibility(View.INVISIBLE);
-        if (mPosition >= mTitleArray.size() - 1) mNextChapter.setVisibility(View.INVISIBLE);
+        if (mPosition == 1) mPrevChapter.setVisibility(View.INVISIBLE);
+        if (mPosition >= mTitleArray.size()) mNextChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBookNEW.getBookName() + " - " + mTitleArray.get(mPosition));
+        getActionBar().setTitle(mTitleArray.get(mPosition));
 
         mChapterTitle.setText(mTitleArray.get(mPosition));
         mChapterContent.setText(mContentArray.get(mPosition));
@@ -182,8 +189,8 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
                 return;
             }
             mBookNEW.setReadingChapter(position);
-            mChapter9 = null;
-            getChapterTask(mBookNEW.getBookId(), position, 0);
+            mChapterNEW = null;
+            getChapterOfBooksNEW(mBookNEW.getBookId(), position, 0);
         }
     }
 
@@ -246,123 +253,61 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
     //////////////////////////////
     private ViewerActivity mContext = (ViewerActivity) this;//REMOVE
 
-    private void getChapterTask(int storyID, int chapterID, final int y) {
-        new AsyncTask<Integer, Void, Chapter9>() {
-            @Override
-            protected void onPreExecute() {
-                mDialog = new ProgressDialog(mContext);
-                mDialog.setMessage(getString(R.string.progress_msg));
-                mDialog.show();
-            }
 
-            @Override
-            protected Chapter9 doInBackground(Integer... params) {
-                int storyID, chapterID;
-                storyID = params[0];
-                chapterID = params[1];
+    //tải 1 chapter của một truyện từ server
+    public void getChapterOfBooksNEW(int bookId, int chapterIndex, final int y){
+        mDialog = new ProgressDialog(mContext);
+        mDialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+        mDialog.show();
 
-                return getBookChapter(storyID, chapterID);
-            }
-
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.getChapterOfBook(bookId, chapterIndex).enqueue(new Callback<Chapter>() {
             @Override
-            protected void onPostExecute(Chapter9 chapter9) {
-                if (chapter9 != null) {
-                    mChapter9 = chapter9;
+            public void onResponse(Call<Chapter> call, Response<Chapter> response) {
+
+                if(response.isSuccessful()) {
+                    Log.d("<<QWERTY>>", "posts loaded from API");
+//                    Log.d("<<QWERTY>>", response.body().toString());
+                    Chapter chapter = response.body();
+                    if (chapter != null) {
+                        mChapterNEW = chapter;
+                        showOnlineChapter(mChapterNEW, y);
+                        mDialog.dismiss();
+                    } else {
+                        Toast.makeText(ViewerActivity.this, getString(R.string.book_not_exist_chapter), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
+                    }
+                }else {
+                    int statusCode  = response.code();
+                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                    // handle request errors depending on status code
                 }
-                showOnlineChapter(mChapter9, y);
+            }
+
+            @Override
+            public void onFailure(Call<Chapter> call, Throwable t) {
+                Log.d("<<QWERTY>>", "error loading from API");
+                Toast.makeText(ViewerActivity.this, getString(R.string.book_server_error), Toast.LENGTH_LONG).show();
                 mDialog.dismiss();
             }
-        }.execute(storyID, chapterID);
+        });
     }
 
-    private Chapter9 getBookChapter(int storyID, int chapterID) {
-        Context mContext;
-        String Content = null;
-        String Error = null;
-        ProgressDialog Dialog;
-        String data = "";
-        Chapter9 chapter9 = null;
-        String path = "";
-
-        BufferedReader reader = null;
-        try {
-            path = "http://wsthichtruyen-1212491.rhcloud.com/?function=2&StoryID=" + storyID + "&ChapterID=" + chapterID;
-            Log.i("<<NOGIAS>>", path);
-            URL url = new URL(path);
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            // Read Server Response
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + " ");
-            }
-
-            // Append Server Response To Content String
-            Content = sb.toString();
-        } catch (Exception ex) {
-            Error = ex.getMessage();
-        } finally {
-            try {
-                reader.close();
-            } catch (Exception ex) {
-                Log.i("<<NOGIAS>>", ex.toString());
-            }
-        }
-
-        if (Error != null) {
-            Log.i("<<NOGIAS>>", Error);
-        } else {
-            /****************** Start Parse Response JSON Data *************/
-            JSONArray jsonArray;
-            try {
-                Log.i("<<NOGIAS>>", "Log1");
-                /****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
-                Content = Html.fromHtml(Content).toString();
-                jsonArray = new JSONArray(Content);//
-//                /*********** Process each JSON Node ************///
-                int lengthJsonArr = jsonArray.length();
-
-                for (int i = 0; i < lengthJsonArr; i++) {
-//                    /****** Get Object for each JSON node.***********/
-                    JSONObject jsonChildNode = jsonArray.getJSONObject(i);
-                    chapter9 = new Chapter9();
-                    chapter9.setmStoryId(jsonChildNode.optInt(Chapter.KEY_STORYID));
-                    chapter9.setmChapterId(jsonChildNode.optInt(Chapter.KEY_CHAPTERID));
-                    chapter9.setmTitle(jsonChildNode.optString(Chapter.KEY_TITLE).toString());
-                    chapter9.setmContent(jsonChildNode.optString(Chapter.KEY_CONTENT).toString());
-                    Log.i("<<NOGIAS>>", "Log2");
-                    return chapter9;
-                }
-            } catch (JSONException e) {
-                Log.i("<<NOGIAS>>", e.toString());
-            }
-        }
-        return chapter9;
-    }
-
-    public void showOnlineChapter(Chapter9 c, final int y) {
-        if (mChapter9 == null) {
+    public void showOnlineChapter(Chapter chapter, final int y) {
+        if (chapter == null) {
             Toast.makeText(this, "Chương được chọn không tồn tại!!!", Toast.LENGTH_LONG).show();
             return;
         }
 
         mPrevChapter.setVisibility(View.VISIBLE);
         mNextChapter.setVisibility(View.VISIBLE);
-        if (mChapter9.getmChapterId() == 0) mPrevChapter.setVisibility(View.INVISIBLE);
+        if (chapter.getChapterIndex() == 1) mPrevChapter.setVisibility(View.INVISIBLE);
 
-        getActionBar().setTitle(mBookNEW.getBookName() + " - " + mChapter9.getmTitle());
+        getActionBar().setTitle(chapter.getChapterName());
 
-        mChapterTitle.setText(mChapter9.getmTitle());
-        mChapterContent.setText(mChapter9.getmContent());
+        mChapterTitle.setText(chapter.getChapterName());
+        mChapterContent.setText(chapter.getContent());
 
         mScrollView.post(new Runnable() {
             @Override
@@ -371,7 +316,7 @@ public class ViewerActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
-        mPosition = c.getmChapterId();
+        mPosition = chapter.getChapterIndex();
     }
 
     public void setContentStyle() {

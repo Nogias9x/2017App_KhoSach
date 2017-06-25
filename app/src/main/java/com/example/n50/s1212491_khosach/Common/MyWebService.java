@@ -20,7 +20,7 @@ public interface MyWebService {
 
     // https://ws-thich-truyen.herokuapp.com/getChapterOfBook?bookId=2&chapterIndex=3
     @GET("/getChapterOfBook")
-    Call<List<Chapter>> getChapterOfBook(@Query("bookId") int bookId, @Query("chapterIndex") int chapterIndex);
+    Call<Chapter> getChapterOfBook(@Query("bookId") int bookId, @Query("chapterIndex") int chapterIndex);
 
 
 //    @GET("/answers?order=desc&sort=activity&site=stackoverflow")

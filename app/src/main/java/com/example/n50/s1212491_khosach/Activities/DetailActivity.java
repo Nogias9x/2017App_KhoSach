@@ -171,13 +171,12 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 intent1.putExtra("Style", mBookNEW.STYLE_ONLINE);
                                 startActivity(intent1);
                                 break;
-                            case DialogInterface.BUTTON_NEGATIVE: // xem danh sách chương
-                                Toast.makeText(DetailActivity.this, "2222", Toast.LENGTH_LONG).show();
+                            case DialogInterface.BUTTON_NEGATIVE: // đọc từ đầu
 
                                 Intent intent2 = new Intent(DetailActivity.this, ViewerActivity.class);
                                 intent2.putExtra(Book.KEY_BOOK_NAME, mBookNEW.getBookName());
                                 intent2.putExtra("BookID", mBookNEW.getBookId());
-                                intent2.putExtra("ChapterID", 0);
+                                intent2.putExtra("ChapterID", 1);
                                 intent2.putExtra("Style", mBookNEW.STYLE_ONLINE);
                                 startActivity(intent2);
                                 break;
@@ -247,4 +246,5 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             bookshelfIv.setBackgroundResource(R.drawable.remove_book_icon);
         }
     }
+
 }

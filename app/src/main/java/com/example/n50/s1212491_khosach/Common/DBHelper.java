@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("ReadingChapter", 0);
             contentValues.put("ReadingY", 0);
             contentValues.put("Downloaded", 0);
-            db.insertWithOnConflict("Book9", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict("Book", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         }
         return true;
     }
@@ -202,7 +202,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (res.isAfterLast() == false) {
             return res.getInt(res.getColumnIndex(KEY_B_READING_CHAPTER));
         }
-        return 0;
+        return 1;
     }
 
     public int getReadingY(Integer storyID) {

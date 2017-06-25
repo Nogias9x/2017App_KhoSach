@@ -93,8 +93,6 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        Toast.makeText(mContext, "222Không, chọn lại chương khác", Toast.LENGTH_LONG).show();
-
                         break;
                 }
             }
