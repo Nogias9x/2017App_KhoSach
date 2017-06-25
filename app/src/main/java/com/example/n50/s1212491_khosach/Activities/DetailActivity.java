@@ -160,7 +160,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE: // đọc tiếp vị trí dở dang
-                                Toast.makeText(DetailActivity.this, "1111", Toast.LENGTH_LONG).show();
                                 Intent intent1 = new Intent(DetailActivity.this, ViewerActivity.class);
                                 intent1.putExtra(Book.KEY_BOOK_NAME, mBookNEW.getBookName());
                                 intent1.putExtra("BookAuthor", mBookNEW.getAuthorName());

@@ -355,28 +355,28 @@ public class LongOperation {
 
     ///////////////////////
     //tìm các truyện từ server chứa từ khoá
-    public void searchBookTask(final String searchKey, final ListView resultList, final SearchingActivity act) {
-        new AsyncTask<Void, Void, List<Book9>>() {
-            @Override
-            protected void onPreExecute() {
-                Dialog = new ProgressDialog(mContext);
-                Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
-                Dialog.show();
-            }
-
-            @Override
-            protected List<Book9> doInBackground(Void... voids) {
-                String str = searchKey.replace(" ", "%20");
-                return searchBook("http://wsthichtruyen-1212491.rhcloud.com/?function=5&title=" + str);
-            }
-
-            @Override
-            protected void onPostExecute(List<Book9> list) {
-                act.setAdapterForList(list);
-                Dialog.dismiss();
-            }
-        }.execute();
-    }
+//    public void searchBookTask(final String searchKey, final ListView resultList, final SearchingActivity act) {
+//        new AsyncTask<Void, Void, List<Book9>>() {
+//            @Override
+//            protected void onPreExecute() {
+//                Dialog = new ProgressDialog(mContext);
+//                Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+//                Dialog.show();
+//            }
+//
+//            @Override
+//            protected List<Book9> doInBackground(Void... voids) {
+//                String str = searchKey.replace(" ", "%20");
+//                return searchBook("http://wsthichtruyen-1212491.rhcloud.com/?function=5&title=" + str);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(List<Book9> list) {
+//                act.setAdapterForList(list);
+//                Dialog.dismiss();
+//            }
+//        }.execute();
+//    }
 
     private List<Book9> searchBook(String path) {
         Context mContext;
@@ -550,6 +550,41 @@ public class LongOperation {
         });
     }
 
+
+    //tìm truyện theo tên
+    public void searchBookNEW(String bookName, final ListView resultList, final SearchingActivity act){
+        Dialog = new ProgressDialog(mContext);
+        Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
+        Dialog.show();
+
+        MyWebService mMyWebService;
+        mMyWebService = ApiUtils.getMyWebService();
+        mMyWebService.searchBook(bookName).enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if(response.isSuccessful()) {
+                    Log.d("<<QWERTY>>", "posts loaded from API");
+                    Log.d("<<QWERTY>>", response.body().toString());
+                    List<Book> list = response.body();
+                    if (list != null) {
+                        act.setAdapterForList(list);
+                        Dialog.dismiss();
+                    }
+                    Dialog.dismiss();
+
+                }else {
+                    int statusCode  = response.code();
+                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.d("<<QWERTY>>", "error loading from API");
+            }
+        });
+    }
 
     // MY DOING /////////////////////////////////////////////////////////<<<<<<
 

@@ -22,6 +22,10 @@ public interface MyWebService {
     @GET("/getChapterOfBook")
     Call<Chapter> getChapterOfBook(@Query("bookId") int bookId, @Query("chapterIndex") int chapterIndex);
 
+    // https://ws-thich-truyen.herokuapp.com/searchBook?bookName=hoa
+    @GET("/searchBook")
+    Call<List<Book>> searchBook(@Query("bookName") String bookName);
+
 
 //    @GET("/answers?order=desc&sort=activity&site=stackoverflow")
 //    Call<SOAnswersResponse> getAnswers(@Query("tagged") String tags);
