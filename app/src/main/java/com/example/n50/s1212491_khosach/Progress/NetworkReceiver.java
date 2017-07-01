@@ -12,9 +12,6 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.R;
 
 public class NetworkReceiver extends BroadcastReceiver {
-    public Activity mContext;
-    public boolean mIsOnline;
-
     public ConnectivityManager connMgr;// = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
     public android.net.NetworkInfo wifi;// = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
     public android.net.NetworkInfo mobile;// = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -30,10 +27,8 @@ public class NetworkReceiver extends BroadcastReceiver {
         this.mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
         if (wifi.isAvailable() || mobile.isAvailable()) {
-            Log.i("<<NOGIAS>>", "onReceive online");
             return;
         }
-        Log.i("<<NOGIAS>>", "onReceive offline");
         Handler handler = new Handler(context.getMainLooper());
         Runnable showingToastTask = new Runnable() {
             @Override

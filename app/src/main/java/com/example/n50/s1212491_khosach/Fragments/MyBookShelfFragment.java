@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Adapters.BookGridAdapter;
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Progress.LongOperation;
@@ -26,12 +25,10 @@ import com.example.n50.s1212491_khosach.R;
 import java.util.List;
 
 public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {//, Animation.AnimationListener {
-//    private List<Book9> mBook9s;
     private List<Book> mBooksNEW;
 
     private DBHelper mLocalDatabase;
     private GridView mGridView;
-    private int mPosition = 0;
     private MainActivity mContext;
     private ProgressDialog Dialog;
 
@@ -68,7 +65,6 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
 
             @Override
             protected List<Book> doInBackground(Void... voids) {
-                Log.i("<<NOGIAS>>", "doInBackground getAllBooks");
                 return mLocalDatabase.getAllBooks();
             }
 
@@ -85,7 +81,6 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Toast.makeText(mContext, "show chapters list", Toast.LENGTH_LONG).show();
         LongOperation longOperation = new LongOperation(mContext);
         longOperation.sendViewNEW(mBooksNEW.get(position).getBookId());
 
@@ -99,20 +94,17 @@ public class MyBookShelfFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("--", "Ondestroy");
         ((MyApplication) getActivity().getApplication()).setmLocalDatabase(mLocalDatabase);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("--", "OndestroyView");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("--", "onDetach");
     }
 
     @Override

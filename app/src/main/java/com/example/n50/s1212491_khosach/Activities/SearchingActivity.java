@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.n50.s1212491_khosach.Adapters.BookListAdapter;
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Progress.LongOperation;
@@ -115,7 +114,6 @@ public class SearchingActivity extends BaseActivity implements View.OnClickListe
             }
         };
 
-        //////////
         AlertDialog.Builder builder = new AlertDialog.Builder(SearchingActivity.this);
         builder.setMessage("Bạn có muốn thêm truyện " + mBookList.get(position).getBookName().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
                 .setPositiveButton("Có", dialogClickListener)

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.n50.s1212491_khosach.Activities.DetailActivity;
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Progress.LongOperation;
@@ -25,13 +24,10 @@ import com.example.n50.s1212491_khosach.R;
 import java.util.List;
 
 public class AllBookFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+    LongOperation mLongOperation;
     private List<Book> mBooksNEW = null;
-
     private ListView mListView;
     private MainActivity mContext;
-    private ProgressDialog Dialog;
-    private List<Chapter9> mChapter9s = null;
-    LongOperation mLongOperation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +88,6 @@ public class AllBookFragment extends Fragment implements AdapterView.OnItemClick
             }
         };
 
-        //////////
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Bạn có muốn thêm truyện " + mBooksNEW.get(position).getBookName().toUpperCase() + " vào TRUYỆN CỦA TÔI không?")
                 .setPositiveButton("Có", dialogClickListener)

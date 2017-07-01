@@ -3,40 +3,26 @@ package com.example.n50.s1212491_khosach.Fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.n50.s1212491_khosach.Activities.MainActivity;
 import com.example.n50.s1212491_khosach.Activities.ViewerActivity;
 import com.example.n50.s1212491_khosach.Adapters.ChapterListAdapter;
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
-import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +62,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
                         intent.putExtra("ReadingY", mLocalDatabase.getReadingY(mStoryID));
                         Log.i("<<NOGIAS>>", "ChapterID" + mLocalDatabase.getReadingChapter(mStoryID));
                         Log.i("<<NOGIAS>>", "ReadingY" + mLocalDatabase.getReadingY(mStoryID));
-                        intent.putExtra("Style", Book9.STYLE_OFFLINE);
+                        intent.putExtra("Style", Book.STYLE_OFFLINE);
 
                         ArrayList<String> titleArray = new ArrayList<String>();
                         ArrayList<String> contentArray = new ArrayList<String>();
@@ -141,7 +127,7 @@ public class AllChapterFragment extends Fragment implements AdapterView.OnItemCl
         intent.putExtra("BookTitle", mStoryTitle);
         intent.putExtra("ChapterID", position + 1);
         intent.putExtra("ReadingY", 0);
-        intent.putExtra("Style", new Book9().STYLE_OFFLINE);
+        intent.putExtra("Style", Book.STYLE_OFFLINE);
 
         ArrayList<String> titleArray = new ArrayList<String>();
         ArrayList<String> contentArray = new ArrayList<String>();

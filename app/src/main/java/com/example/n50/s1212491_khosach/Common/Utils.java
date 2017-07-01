@@ -1,21 +1,12 @@
 package com.example.n50.s1212491_khosach.Common;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Base64;
-import android.widget.ImageView;
-
-import java.io.InputStream;
-import java.net.URL;
-
-import com.example.n50.s1212491_khosach.R;
-import com.squareup.picasso.Picasso;
 
 public class Utils {
-    public static Bitmap decodeStringToImage(String encodedDataString){
-        encodedDataString = encodedDataString.replace("data:image/jpeg;base64,","");
+    public static Bitmap decodeStringToImage(String encodedDataString) {
+        encodedDataString = encodedDataString.replace("data:image/jpeg;base64,", "");
         byte[] imageAsBytes = Base64.decode(encodedDataString.getBytes(), 0);
         return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }

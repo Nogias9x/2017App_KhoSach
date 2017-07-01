@@ -69,7 +69,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initLocalDatabase() {
-        Log.i("<<NOGIAS>>", "initLocalDatabase");
         DBHelper localDatabase = mApplication.getmLocalDatabase();
         if (localDatabase == null) localDatabase = new DBHelper(this);
         mApplication.setmLocalDatabase(localDatabase);

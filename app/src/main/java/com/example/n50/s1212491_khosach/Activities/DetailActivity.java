@@ -4,9 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Common.Utils;
@@ -77,16 +74,16 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         mBookNEW = (Book) callerIntent.getSerializableExtra("selectedBook");
 
         if (mBookNEW != null) {
-            try{
+            try {
                 coverIv.setImageBitmap(Utils.decodeStringToImage(mBookNEW.getCoverUrl()));
-            } catch(Exception ex){
-                Log.e("QWERTY", ex.toString());
+            } catch (Exception ex) {
+                Log.e("<<ERROR>>", ex.toString());
                 coverIv.setImageResource(R.drawable.noimage);
             }
             coverIv.setTag(mBookNEW.getCoverUrl());
             titleTv.setText(mBookNEW.getBookName());
             authorTv.setText(mBookNEW.getAuthorName());
-            if(mBookNEW.getIntroduction()==null){
+            if (mBookNEW.getIntroduction() == null) {
                 introTv.setText(getString(R.string.book_no_description));
 
             } else {
@@ -101,7 +98,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             ratingRb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    Log.i("<<NOGIAS>>", "onRatingChanged");
                     if (ratingRb.getRating() == mCurrentRating) return;
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
@@ -119,7 +115,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                         }
                     };
 
-                    //////////
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                     builder.setMessage("Bạn có muốn đánh giá truyện \"" + mBookNEW.getBookName() + "\" với " + ratingRb.getRating() + " sao không?")
                             .setPositiveButton("Có", dialogClickListener)
@@ -127,7 +122,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 }
             });
         }
-////
 
         mIsMine = ((MyApplication) getApplication()).getmLocalDatabase().checkIfExistDownloadedBook(mBookNEW.getBookId());
 
@@ -183,7 +177,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     }
                 };
 
-                //////////
                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                 builder.setMessage("Bạn có muốn đọc tiếp tại vị trí dở dang không?")
                         .setPositiveButton("Có", dialogClickListener)
@@ -223,7 +216,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             mLongOperation.getAllChapterOfBooksNEW(mBookNEW.getBookId());
 
             ((MyApplication) this.getApplication()).setmLocalDatabase(db);
-            mIsMine= true;
+            mIsMine = true;
             changeBookStatus();
         }
     }

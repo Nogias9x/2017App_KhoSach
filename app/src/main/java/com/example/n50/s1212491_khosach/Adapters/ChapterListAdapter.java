@@ -61,6 +61,11 @@ public class ChapterListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return true;
+    }
+
     static class ViewHolder {
         private TextView titleTv;
         private TextView hintTv;
@@ -70,10 +75,5 @@ public class ChapterListAdapter extends BaseAdapter {
             titleTv = (TextView) view.findViewById(R.id.chapterTitle_tv);
             hintTv = (TextView) view.findViewById(R.id.chapterHint_tv);
         }
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return true;
     }
 }

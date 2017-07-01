@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Utils;
 import com.example.n50.s1212491_khosach.R;
 
@@ -62,15 +61,13 @@ public class BookGridAdapter extends BaseAdapter {
 
         Book book = mList.get(position);
         if (book != null) {
-            try{
+            try {
                 viewHolder.coverIv.setImageBitmap(Utils.decodeStringToImage(book.getCoverUrl()));
-            } catch(Exception ex){
+            } catch (Exception ex) {
                 // default image is "R.drawable.noimage"
-                Log.e("QWERTY", ex.toString());
+                Log.e("<<ERROR>>", ex.toString());
                 viewHolder.coverIv.setImageResource(R.drawable.noimage);
             }
-            //Utils.downloadImage(viewHolder.coverIv, book9.getCoverUrl());
-//            Utils.loadImageFromUrl(mContext, viewHolder.coverIv, book9.getCoverUrl());
             viewHolder.titleTv.setText(book.getBookName());
         }
 

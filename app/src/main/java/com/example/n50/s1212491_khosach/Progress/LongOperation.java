@@ -1,10 +1,7 @@
 package com.example.n50.s1212491_khosach.Progress;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,20 +11,13 @@ import com.example.n50.s1212491_khosach.Activities.SearchingActivity;
 import com.example.n50.s1212491_khosach.Adapters.BookListAdapter;
 import com.example.n50.s1212491_khosach.Common.ApiUtils;
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Chapter;
-import com.example.n50.s1212491_khosach.Common.Chapter9;
 import com.example.n50.s1212491_khosach.Common.DBHelper;
 import com.example.n50.s1212491_khosach.Common.MyApplication;
 import com.example.n50.s1212491_khosach.Common.MyWebService;
 import com.example.n50.s1212491_khosach.Fragments.AllBookFragment;
 import com.example.n50.s1212491_khosach.R;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,7 +33,7 @@ public class LongOperation {
     }
 
     //tải tất cả các truyện từ server
-    public void getAllBooksListNEW(final AllBookFragment fragment, final ListView listView){
+    public void getAllBooksListNEW(final AllBookFragment fragment, final ListView listView) {
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
         Dialog.show();
@@ -54,9 +44,7 @@ public class LongOperation {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
 
-                if(response.isSuccessful()) {
-                    Log.d("<<QWERTY>>", "posts loaded from API");
-                    Log.d("<<QWERTY>>", response.body().toString());
+                if (response.isSuccessful()) {
                     List<Book> list = response.body();
                     if (list != null) {
                         BookListAdapter adapter = new BookListAdapter(mContext, list);
@@ -65,18 +53,16 @@ public class LongOperation {
                     }
                     Dialog.dismiss();
 
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                } else {
+                    int statusCode = response.code();
+                    Log.d("<<ERROR>>", "response.code: " + response.code());
                     // handle request errors depending on status code
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.d("<<QWERTY>>", "error loading from API");
-                Log.d("<<QWERTY>>", call.toString());
-                Log.d("<<QWERTY>>", t.toString());
+                Log.d("<<ERROR>>", "error loading from API");
 //                showErrorMessage();
 //                Log.d("MainActivity", "error loading from API");
             }
@@ -84,9 +70,8 @@ public class LongOperation {
     }
 
 
-
     //tải tất cả các chapter của một truyện từ server và lưu vào database
-    public void getAllChapterOfBooksNEW(int bookId){
+    public void getAllChapterOfBooksNEW(int bookId) {
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
         Dialog.show();
@@ -97,9 +82,7 @@ public class LongOperation {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
 
-                if(response.isSuccessful()) {
-                    Log.d("<<QWERTY>>", "posts loaded from API");
-                    Log.d("<<QWERTY>>", response.body().toString());
+                if (response.isSuccessful()) {
                     List<Chapter> list = response.body();
 
                     DBHelper db = ((MyApplication) mContext.getApplication()).getmLocalDatabase();
@@ -113,23 +96,23 @@ public class LongOperation {
                     Dialog.dismiss();
                     Toast.makeText(mContext, "Truyện đã được thêm vào TRUYỆN CỦA TÔI...", Toast.LENGTH_SHORT).show();
 
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                } else {
+                    int statusCode = response.code();
+                    Log.d("<<ERROR>>", "response.code: " + response.code());
                     // handle request errors depending on status code
                 }
             }
 
             @Override
             public void onFailure(Call<List<Chapter>> call, Throwable t) {
-                Log.d("<<QWERTY>>", "error loading from API");
+                Log.d("<<ERROR>>", "error loading from API");
             }
         });
     }
 
 
     //tìm truyện theo tên
-    public void searchBookNEW(String bookName, final ListView resultList, final SearchingActivity act){
+    public void searchBookNEW(String bookName, final ListView resultList, final SearchingActivity act) {
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg));
         Dialog.show();
@@ -139,9 +122,7 @@ public class LongOperation {
         mMyWebService.searchBook(bookName).enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
-                if(response.isSuccessful()) {
-                    Log.d("<<QWERTY>>", "posts loaded from API");
-                    Log.d("<<QWERTY>>", response.body().toString());
+                if (response.isSuccessful()) {
                     List<Book> list = response.body();
                     if (list != null) {
                         act.setAdapterForList(list);
@@ -149,23 +130,23 @@ public class LongOperation {
                     }
                     Dialog.dismiss();
 
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                } else {
+                    int statusCode = response.code();
+                    Log.d("<<ERROR>>", "response.code: " + response.code());
                     // handle request errors depending on status code
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.d("<<QWERTY>>", "error loading from API");
+                Log.d("<<ERROR>>", "error loading from API");
             }
         });
     }
 
 
     //rating truyện
-    public void rateBookNEW(int bookId, float point){
+    public void rateBookNEW(int bookId, float point) {
         Dialog = new ProgressDialog(mContext);
         Dialog.setMessage(mContext.getResources().getString(R.string.progress_msg_rating));
         Dialog.show();
@@ -175,14 +156,12 @@ public class LongOperation {
         mMyWebService.rateBook(bookId, point).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.isSuccessful()) {
-                    Log.d("<<QWERTY>>", "posts loaded from API");
-                    Log.d("<<QWERTY>>", response.body().toString());
+                if (response.isSuccessful()) {
                     Boolean result = Boolean.parseBoolean(response.body().toString());
                     Dialog.dismiss();
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("<<QWERTY>>", "response.code: " + response.code());
+                } else {
+                    int statusCode = response.code();
+                    Log.d("<<ERROR>>", "response.code: " + response.code());
                     // handle request errors depending on status code
                     Handler handler = new Handler(mContext.getMainLooper());
                     Runnable showingToastTask = new Runnable() {
@@ -198,21 +177,22 @@ public class LongOperation {
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.d("<<QWERTY>>", "error loading from API");
+                Log.d("<<ERROR>>", "error loading from API");
                 Dialog.dismiss();
             }
         });
     }
 
     //đếm view truyện
-    public void sendViewNEW(int bookId){
+    public void sendViewNEW(int bookId) {
         MyWebService mMyWebService;
         mMyWebService = ApiUtils.getMyWebService();
         mMyWebService.sendView(bookId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.e("QWERTY", response.body());
+                Log.e("<<ERROR>>", response.body());
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 

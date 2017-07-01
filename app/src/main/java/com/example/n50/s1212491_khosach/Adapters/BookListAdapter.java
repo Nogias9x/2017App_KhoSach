@@ -3,9 +3,6 @@ package com.example.n50.s1212491_khosach.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.n50.s1212491_khosach.Common.Book;
-import com.example.n50.s1212491_khosach.Common.Book9;
 import com.example.n50.s1212491_khosach.Common.Utils;
 import com.example.n50.s1212491_khosach.R;
 
@@ -24,13 +20,7 @@ import java.util.List;
 
 public class BookListAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Book9> mList;
     private List<Book> mListNEW;
-
-//    public BookListAdapter(Context context, List<Book9> list) {
-//        mContext = context;
-//        mList = list;
-//    }
 
     public BookListAdapter(Context context, List<Book> list) {
         mContext = context;
@@ -69,20 +59,17 @@ public class BookListAdapter extends BaseAdapter {
 
         Book book = mListNEW.get(position);
         if (book != null) {
-            try{
+            try {
                 viewHolder.coverIv.setImageBitmap(Utils.decodeStringToImage(book.getCoverUrl()));
-            } catch(Exception ex){
+            } catch (Exception ex) {
                 // default image is "R.drawable.noimage"
-                Log.e("QWERTY", ex.toString());
-//                viewHolder.coverIv.setImageResource(R.drawable.noimage);
+                Log.e("<<ERROR>>", ex.toString());
             }
 
-//            Utils.downloadImage(viewHolder.coverIv, book.getCoverUrl());
-//            Utils.loadImageFromUrl(mContext, viewHolder.coverIv, book.getCoverUrl());
             viewHolder.titleTv.setText(book.getBookName());
             viewHolder.authorTv.setText(book.getAuthorName());
             viewHolder.viewTv.setText(mContext.getString(R.string.book_view) + " " + book.getViews());
-            viewHolder.chapterTv.setText(mContext.getString(R.string.book_chapter) + " "  + book.getChapterNumber());
+            viewHolder.chapterTv.setText(mContext.getString(R.string.book_chapter) + " " + book.getChapterNumber());
             viewHolder.ratingRb.setRating(book.getRatingPoints());
             viewHolder.ratingRb.setScaleX(0.5f);
             viewHolder.ratingRb.setScaleY(0.5f);

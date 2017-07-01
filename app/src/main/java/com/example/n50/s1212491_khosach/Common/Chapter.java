@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Chapter {
     public static final String KEY = "chapter";
-    public static final String TABLE_NAME = "Chapter9";
+    public static final String TABLE_NAME = "Chapter";
     public static final String KEY_STORYID = "StoryID";
     public static final String KEY_CHAPTERID = "ChapterID";
     public static final String KEY_TITLE = "ChapterTitle";
@@ -37,14 +37,43 @@ public class Chapter {
         return mContent.substring(0, 300) + "...";
     }
 
-    public int getChapterId() { return mChapterId; }
-    public void setChapterId(int mChapterId) { this.mChapterId = mChapterId; }
-    public int getBookId() { return mBookId; }
-    public void setBookId(int mBookId) { this.mBookId = mBookId; }
-    public int getChapterIndex() { return mChapterIndex; }
-    public void setChapterIndex(int mChapterIndex) { this.mChapterIndex = mChapterIndex; }
-    public String getChapterName() { return mChapterName; }
-    public void setChapterName(String mChapterName) { this.mChapterName = mChapterName; }
-    public String getContent() { return mContent; }
-    public void setContent(String mContent) { this.mContent = mContent; }
+    public int getChapterId() {
+        return mChapterId;
+    }
+
+    public void setChapterId(int mChapterId) {
+        this.mChapterId = mChapterId;
+    }
+
+    public int getBookId() {
+        return mBookId;
+    }
+
+    public void setBookId(int mBookId) {
+        this.mBookId = mBookId;
+    }
+
+    public int getChapterIndex() {
+        return mChapterIndex;
+    }
+
+    public void setChapterIndex(int mChapterIndex) {
+        this.mChapterIndex = mChapterIndex;
+    }
+
+    public String getChapterName() {
+        return mChapterName;
+    }
+
+    public void setChapterName(String mChapterName) {
+        this.mChapterName = mChapterName;
+    }
+
+    public String getContent() {
+        return mContent;
+    }
+
+    public void setContent(String mContent) {
+        this.mContent = mContent;
+    }
 }

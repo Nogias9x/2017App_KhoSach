@@ -63,20 +63,40 @@ public class MyApplication extends Application {
         return mCurrentTextColor;
     }
 
+    public void setmCurrentTextColor(int mCurrentTextColor) {
+        this.mCurrentTextColor = mCurrentTextColor;
+    }
+
     public int getmCurrentBackgroundColor() {
         return mCurrentBackgroundColor;
+    }
+
+    public void setmCurrentBackgroundColor(int mCurrentBackgroundColor) {
+        this.mCurrentBackgroundColor = mCurrentBackgroundColor;
     }
 
     public int getmCurrentReadMode() {
         return mCurrentReadMode;
     }
 
+    public void setmCurrentReadMode(int mCurrentReadMode) {
+        this.mCurrentReadMode = mCurrentReadMode;
+    }
+
     public int getmCurrentLineSpace() {
         return mCurrentLineSpace;
     }
 
+    public void setmCurrentLineSpace(int mCurrentLineSpace) {
+        this.mCurrentLineSpace = mCurrentLineSpace;
+    }
+
     public int getmCurrentTextSize() {
         return mCurrentTextSize;
+    }
+
+    public void setmCurrentTextSize(int mCurrentTextSize) {
+        this.mCurrentTextSize = mCurrentTextSize;
     }
 
     public String getCurrentTextColor() {
@@ -85,22 +105,6 @@ public class MyApplication extends Application {
 
     public String getCurrentBackgroundColor() {
         return this.mColors[mCurrentBackgroundColor];
-    }
-
-    public void setmCurrentTextColor(int mCurrentTextColor) {
-        this.mCurrentTextColor = mCurrentTextColor;
-    }
-
-    public void setmCurrentBackgroundColor(int mCurrentBackgroundColor) {
-        this.mCurrentBackgroundColor = mCurrentBackgroundColor;
-    }
-
-    public void setmCurrentLineSpace(int mCurrentLineSpace) {
-        this.mCurrentLineSpace = mCurrentLineSpace;
-    }
-
-    public void setmCurrentTextSize(int mCurrentTextSize) {
-        this.mCurrentTextSize = mCurrentTextSize;
     }
 
     public String getCurrentReadMode() {
@@ -117,10 +121,6 @@ public class MyApplication extends Application {
 
     public String[] getmReadMode() {
         return mReadMode;
-    }
-
-    public void setmCurrentReadMode(int mCurrentReadMode) {
-        this.mCurrentReadMode = mCurrentReadMode;
     }
 
     public String goToNextTextColor() {

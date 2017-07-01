@@ -31,10 +31,8 @@ import com.example.n50.s1212491_khosach.R;
  */
 
 public class BaseActivity extends Activity implements View.OnClickListener {
-    private MyApplication mApplication;
     private static BroadcastReceiver mNetworkBroadcastReceiver;
-
-    //    setting mSettingDialog
+    private MyApplication mApplication;
     private Dialog mSettingDialog;
     private ImageButton ib_nextText;
     private ImageButton ib_prevText;
@@ -59,12 +57,6 @@ public class BaseActivity extends Activity implements View.OnClickListener {
     private int currentReadMode;
     private int currentLineSpace;
     private int currentTextSize;
-
-    //    search mSearchingDialog
-    private Dialog mSearchingDialog;
-    private TextView tv_title;
-    private Button btn_search;
-    private Button btn_cancel2;
 
 
     @Override
@@ -252,7 +244,6 @@ public class BaseActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         if (mNetworkBroadcastReceiver != null) {
-            Log.i("<<NOGIAS>>", "unregisterReceiver");
             unregisterReceiver(mNetworkBroadcastReceiver);
             mNetworkBroadcastReceiver = null;
         }
@@ -262,10 +253,8 @@ public class BaseActivity extends Activity implements View.OnClickListener {
     public boolean isOnline() {
         NetworkInfo ni = ((ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         if (ni == null) {
-            Log.i("<<NOGIAS>>", "isOnline offline");
             return false;
         }
-        Log.i("<<NOGIAS>>", "isOnline online");
         return true;
     }
 }
